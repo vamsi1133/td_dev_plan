@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why React + Vite + Ant Design? - TipsyDrive Technology Choice</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #059669;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --bg: #ffffff;
+            --bg-card: #f8fafc;
+            --bg-card-hover: #f1f5f9;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: var(--primary); }
+
+        header {
+            text-align: center;
+            padding: 2rem 0 3rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        header p { color: var(--text-muted); font-size: 1.1rem; }
+
+        .selected-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--secondary);
+            border-radius: 9999px;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        section { margin-bottom: 3rem; }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+            display: inline-block;
+        }
+
+        h3 { font-size: 1.25rem; margin: 1.5rem 0 1rem; color: var(--secondary); }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+
+        .grid { display: grid; gap: 1.5rem; }
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        .grid-3 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: var(--bg-card); color: var(--primary); font-weight: 600; }
+        tr:hover { background: var(--bg-card-hover); }
+        .winner { color: var(--secondary); font-weight: 500; }
+
+        .alternative {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            margin-bottom: 1rem;
+        }
+
+        .alternative-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+        .alternative-name { font-size: 1.25rem; font-weight: 600; color: var(--warning); }
+        .alternative-tag {
+            padding: 0.25rem 0.75rem;
+            background: var(--bg-card-hover);
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+        .pros h4 { color: var(--secondary); }
+        .cons h4 { color: var(--danger); }
+        .pros ul, .cons ul { list-style: none; margin-top: 0.5rem; }
+        .pros li::before { content: '+ '; color: var(--secondary); font-weight: bold; }
+        .cons li::before { content: '- '; color: var(--danger); font-weight: bold; }
+
+        .bottom-line {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--secondary);
+            margin-top: 2rem;
+        }
+        .bottom-line h3 { color: var(--secondary); margin-top: 0; }
+
+        .tech-breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 1rem; }
+        .tech-item { padding: 1.25rem; background: var(--bg); border-radius: 8px; border-left: 3px solid var(--primary); }
+        .tech-item h4 { color: var(--primary); margin-bottom: 0.5rem; }
+        .tech-item p { color: var(--text-muted); font-size: 0.9rem; }
+
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            header h1 { font-size: 1.75rem; }
+            .pros-cons { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="architecture-and-plan.html" class="back-link">
+            <span>&larr;</span> Back to Architecture
+        </a>
+
+        <header>
+            <h1>Why React + Vite + Ant Design?</h1>
+            <p>Technology choice justification for TipsyDrive admin dashboard</p>
+            <div class="selected-badge">Current Selection: React + Vite + Ant Design</div>
+        </header>
+
+        <!-- Stack Breakdown -->
+        <section>
+            <h2>Stack Breakdown</h2>
+            <div class="tech-breakdown">
+                <div class="tech-item">
+                    <h4>React</h4>
+                    <p>Component-based UI library. Same mental model as React Native, enabling code/knowledge sharing across mobile and web.</p>
+                </div>
+                <div class="tech-item">
+                    <h4>Vite</h4>
+                    <p>Next-generation build tool. Lightning-fast HMR, native ES modules, optimized production builds. Replaces slow Webpack.</p>
+                </div>
+                <div class="tech-item">
+                    <h4>Ant Design</h4>
+                    <p>Enterprise-grade UI component library. 60+ ready-to-use components for tables, forms, charts - perfect for admin dashboards.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why This Stack Section -->
+        <section>
+            <h2>Why We Chose This Stack</h2>
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>Key Advantages</h3>
+                    <table>
+                        <tr><th>Factor</th><th>Benefit</th></tr>
+                        <tr><td>Unified Language</td><td>TypeScript across backend, mobile, and admin dashboard</td></tr>
+                        <tr><td>Development Speed</td><td>Vite's instant HMR + Ant Design's pre-built components</td></tr>
+                        <tr><td>Admin-Ready UI</td><td>Tables, forms, charts, modals - all production-ready</td></tr>
+                        <tr><td>Team Efficiency</td><td>React developers work on both mobile (RN) and admin</td></tr>
+                        <tr><td>Ecosystem</td><td>Huge library support (charts, maps, date pickers)</td></tr>
+                        <tr><td>Theming</td><td>Easy dark mode and brand customization with Ant Design</td></tr>
+                    </table>
+                </div>
+                <div class="card">
+                    <h3>TipsyDrive Admin Needs</h3>
+                    <div class="tech-breakdown" style="margin-top: 0.5rem;">
+                        <div class="tech-item">
+                            <h4>Data Tables</h4>
+                            <p>Ant Table with sorting, filtering, pagination for rides, drivers, users</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>Forms</h4>
+                            <p>Driver verification, pricing config, promo codes management</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>Analytics</h4>
+                            <p>Charts for revenue, rides, driver performance dashboards</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>Real-time</h4>
+                            <p>Live ride monitoring, driver locations on map</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Table -->
+        <section>
+            <h2>Detailed Comparison</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>React + Vite + Ant Design</th>
+                        <th>Next.js + Tailwind</th>
+                        <th>Angular + Material</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Admin Components</td>
+                        <td class="winner">60+ enterprise-ready components</td>
+                        <td>Need to build or use Headless UI</td>
+                        <td>Good Material components</td>
+                    </tr>
+                    <tr>
+                        <td>Build Speed</td>
+                        <td class="winner">Instant HMR (Vite)</td>
+                        <td>Fast (Turbopack)</td>
+                        <td>Slower (Webpack)</td>
+                    </tr>
+                    <tr>
+                        <td>Bundle Size</td>
+                        <td>Medium (tree-shakeable)</td>
+                        <td class="winner">Small (utility CSS)</td>
+                        <td>Larger</td>
+                    </tr>
+                    <tr>
+                        <td>Learning Curve</td>
+                        <td class="winner">Low (React + components)</td>
+                        <td>Low-Medium</td>
+                        <td>Higher (Angular concepts)</td>
+                    </tr>
+                    <tr>
+                        <td>Code Sharing</td>
+                        <td class="winner">Same React as mobile</td>
+                        <td class="winner">Same React as mobile</td>
+                        <td>Different from React Native</td>
+                    </tr>
+                    <tr>
+                        <td>Tables/Forms</td>
+                        <td class="winner">Excellent (Ant Table/Form)</td>
+                        <td>Need external libraries</td>
+                        <td>Good (Mat-Table)</td>
+                    </tr>
+                    <tr>
+                        <td>SSR/SEO</td>
+                        <td>Not needed (admin SPA)</td>
+                        <td class="winner">Built-in SSR</td>
+                        <td>Angular Universal</td>
+                    </tr>
+                    <tr>
+                        <td>Deployment</td>
+                        <td class="winner">Simple static hosting</td>
+                        <td>Needs Node.js for SSR</td>
+                        <td>Static or Node.js</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Alternatives Section -->
+        <section>
+            <h2>Alternative Options Considered</h2>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">Next.js + Tailwind CSS</span>
+                    <span class="alternative-tag">Full-Stack React</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">React framework with SSR, API routes, and utility-first CSS.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>SSR/SSG for SEO (if needed)</li>
+                            <li>API routes for BFF pattern</li>
+                            <li>Tailwind gives full design control</li>
+                            <li>Great for public-facing sites</li>
+                            <li>Strong community and docs</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive Admin</h4>
+                        <ul>
+                            <li>SSR not needed for internal dashboard</li>
+                            <li>Must build admin components from scratch</li>
+                            <li>More CSS work (Tailwind is low-level)</li>
+                            <li>Overkill for authenticated-only SPA</li>
+                            <li>Deployment needs Node.js server</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; padding: 0.75rem; background: var(--bg); border-radius: 8px; font-size: 0.9rem;">
+                    <strong style="color: var(--warning);">When to use:</strong> Public-facing websites, SEO-critical pages, or when you need API routes in the frontend.
+                </p>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">Angular + Angular Material</span>
+                    <span class="alternative-tag">Enterprise Framework</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Google's full-featured framework with opinionated architecture and Material components.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Full framework (routing, forms, HTTP built-in)</li>
+                            <li>Strong typing with TypeScript</li>
+                            <li>Consistent architecture for large teams</li>
+                            <li>Good for complex enterprise apps</li>
+                            <li>RxJS for reactive programming</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>Different from React Native (can't share code)</li>
+                            <li>Steeper learning curve</li>
+                            <li>Heavier bundle size</li>
+                            <li>Team already knows React</li>
+                            <li>Slower development for small team</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; padding: 0.75rem; background: var(--bg); border-radius: 8px; font-size: 0.9rem;">
+                    <strong style="color: var(--warning);">When to use:</strong> Large enterprise teams, complex applications requiring strict architecture, or existing Angular expertise.
+                </p>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">Vue 3 + Vuetify / Element Plus</span>
+                    <span class="alternative-tag">Progressive Framework</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Progressive JavaScript framework with excellent admin UI libraries.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Excellent documentation</li>
+                            <li>Element Plus great for admin UIs</li>
+                            <li>Simpler than React for some use cases</li>
+                            <li>Good TypeScript support</li>
+                            <li>Composition API similar to React hooks</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>Different from React Native stack</li>
+                            <li>Team would need to learn new framework</li>
+                            <li>Smaller job market in India than React</li>
+                            <li>Can't share knowledge with mobile team</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; padding: 0.75rem; background: var(--bg); border-radius: 8px; font-size: 0.9rem;">
+                    <strong style="color: var(--warning);">When to use:</strong> Teams already using Vue, or projects where Vue's simplicity is preferred over React's ecosystem.
+                </p>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">Retool / Appsmith</span>
+                    <span class="alternative-tag">Low-Code Admin Builder</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Low-code platforms for building internal tools quickly with drag-and-drop.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Extremely fast to build</li>
+                            <li>No frontend coding required</li>
+                            <li>Built-in database connections</li>
+                            <li>Great for quick internal tools</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>Monthly subscription costs</li>
+                            <li>Limited customization</li>
+                            <li>Vendor lock-in</li>
+                            <li>Can't integrate complex real-time features</li>
+                            <li>Not suitable for customer-facing in future</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; padding: 0.75rem; background: var(--bg); border-radius: 8px; font-size: 0.9rem;">
+                    <strong style="color: var(--warning);">When to use:</strong> Quick prototypes, simple CRUD admin panels, or when developer resources are very limited.
+                </p>
+            </div>
+        </section>
+
+        <!-- Bottom Line -->
+        <div class="bottom-line">
+            <h3>Bottom Line</h3>
+            <p>For TipsyDrive's admin dashboard - requiring <strong>data tables, forms, charts, real-time monitoring, and rapid development</strong> - React + Vite + Ant Design provides:</p>
+            <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                <li>Same React/TypeScript as mobile team (knowledge sharing)</li>
+                <li>60+ production-ready components from Ant Design</li>
+                <li>Lightning-fast development with Vite's HMR</li>
+                <li>Easy theming for dark mode and brand colors</li>
+                <li>Simple deployment as static SPA (S3 + CloudFront)</li>
+            </ul>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 1rem;">
+                <strong>Future consideration:</strong> If we need public-facing pages with SEO (marketing site, driver signup), we can add a Next.js app to the monorepo while keeping the admin dashboard as a separate Vite SPA.
+            </p>
+        </div>
+
+        <footer style="text-align: center; padding: 3rem 0; border-top: 1px solid var(--border); margin-top: 3rem; color: var(--text-muted);">
+            <a href="architecture-and-plan.html" style="color: var(--primary); text-decoration: none;">&larr; Back to Architecture & Plan</a>
+        </footer>
+    </div>
+</body>
+</html>

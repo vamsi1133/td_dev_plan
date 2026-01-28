@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TipsyDrive - Project Dashboard</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --primary-light: #e0e7ff;
+            --secondary: #059669;
+            --secondary-light: #d1fae5;
+            --warning: #d97706;
+            --warning-light: #fef3c7;
+            --danger: #dc2626;
+            --bg: #ffffff;
+            --bg-card: #f8fafc;
+            --bg-card-hover: #f1f5f9;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--secondary-light) 100%);
+            margin: -2rem -2rem 3rem -2rem;
+            padding: 4rem 2rem;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .header-badges {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-primary { background: var(--primary); color: white; }
+        .badge-secondary { background: var(--secondary); color: white; }
+        .badge-warning { background: var(--warning); color: white; }
+
+        /* Navigation */
+        .nav-section {
+            margin-bottom: 3rem;
+        }
+
+        .nav-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+            display: inline-block;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .nav-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+            border-color: var(--primary);
+        }
+
+        .nav-card.active {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--primary-light) 100%);
+        }
+
+        .nav-card.coming-soon {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .nav-card.coming-soon:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .nav-card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .nav-card-icon.dev { background: var(--primary-light); }
+        .nav-card-icon.marketing { background: var(--secondary-light); }
+        .nav-card-icon.finance { background: var(--warning-light); }
+        .nav-card-icon.ops { background: #fce7f3; }
+
+        .nav-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .nav-card-status {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            display: inline-block;
+        }
+
+        .status-active {
+            background: var(--secondary-light);
+            color: var(--secondary);
+        }
+
+        .status-coming {
+            background: var(--bg-card-hover);
+            color: var(--text-muted);
+        }
+
+        /* Content Area */
+        .content-section {
+            margin-bottom: 3rem;
+        }
+
+        .content-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .content-frame {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--bg-card);
+        }
+
+        .content-frame iframe {
+            width: 100%;
+            height: 800px;
+            border: none;
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .content-header h3 {
+            font-size: 1.1rem;
+            color: var(--text);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-light);
+        }
+
+        /* Quick Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border);
+            margin-top: 3rem;
+            color: var(--text-muted);
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            header { padding: 2rem 1rem; margin: -1rem -1rem 2rem -1rem; }
+            header h1 { font-size: 2rem; }
+            .content-frame iframe { height: 600px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>TipsyDrive</h1>
+            <p>On-Demand Driver Booking Platform - Project Dashboard</p>
+            <div class="header-badges">
+                <span class="badge badge-primary">MVP Phase</span>
+                <span class="badge badge-secondary">Single City Launch</span>
+                <span class="badge badge-warning">India Market</span>
+            </div>
+        </header>
+
+        <!-- Quick Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">16</div>
+                <div class="stat-label">Technologies Documented</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">10</div>
+                <div class="stat-label">Weeks to MVP</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">3</div>
+                <div class="stat-label">Service Types</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">$400</div>
+                <div class="stat-label">Est. Monthly Infra</div>
+            </div>
+        </div>
+
+        <!-- Navigation Cards -->
+        <section class="nav-section">
+            <h2>Project Sections</h2>
+            <div class="nav-grid">
+                <a href="architecture-and-plan.html" class="nav-card active">
+                    <div class="nav-card-icon dev">&#128187;</div>
+                    <h3>Development Plan</h3>
+                    <p>Architecture, tech stack, database schema, API endpoints, and development timeline.</p>
+                    <span class="nav-card-status status-active">Active</span>
+                </a>
+
+                <div class="nav-card coming-soon">
+                    <div class="nav-card-icon marketing">&#128640;</div>
+                    <h3>Marketing Strategy</h3>
+                    <p>Go-to-market plan, customer acquisition, branding, and growth strategies.</p>
+                    <span class="nav-card-status status-coming">Coming Soon</span>
+                </div>
+
+                <div class="nav-card coming-soon">
+                    <div class="nav-card-icon finance">&#128176;</div>
+                    <h3>Financial Plan</h3>
+                    <p>Revenue projections, unit economics, funding requirements, and burn rate.</p>
+                    <span class="nav-card-status status-coming">Coming Soon</span>
+                </div>
+
+                <div class="nav-card coming-soon">
+                    <div class="nav-card-icon ops">&#9881;</div>
+                    <h3>Operations</h3>
+                    <p>Driver onboarding, support workflows, city launch playbook, and SOPs.</p>
+                    <span class="nav-card-status status-coming">Coming Soon</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Embedded Content -->
+        <section class="content-section">
+            <div class="content-frame">
+                <div class="content-header">
+                    <h3>Development Plan & Architecture</h3>
+                    <a href="architecture-and-plan.html" class="btn btn-outline" target="_blank">
+                        Open Full Page &#8599;
+                    </a>
+                </div>
+                <iframe src="architecture-and-plan.html" title="Development Plan"></iframe>
+            </div>
+        </section>
+
+        <footer>
+            <p>TipsyDrive - On-Demand Driver Booking Platform</p>
+            <p style="font-size: 0.85rem; margin-top: 0.5rem;">
+                MVP Target: Single City | Market: India
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

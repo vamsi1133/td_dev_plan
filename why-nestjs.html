@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why NestJS? - TipsyDrive Technology Choice</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #059669;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --bg: #ffffff;
+            --bg-card: #f8fafc;
+            --bg-card-hover: #f1f5f9;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
+        }
+
+        header {
+            text-align: center;
+            padding: 2rem 0 3rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .selected-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--secondary);
+            border-radius: 9999px;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        section {
+            margin-bottom: 3rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+            display: inline-block;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--secondary);
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        .grid-4 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--bg-card);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .winner {
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        .alternative {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            margin-bottom: 1rem;
+        }
+
+        .alternative-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .alternative-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--warning);
+        }
+
+        .alternative-tag {
+            padding: 0.25rem 0.75rem;
+            background: var(--bg-card-hover);
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .pros h4 { color: var(--secondary); }
+        .cons h4 { color: var(--danger); }
+
+        .pros ul, .cons ul {
+            list-style: none;
+            margin-top: 0.5rem;
+        }
+
+        .pros li::before {
+            content: '+ ';
+            color: var(--secondary);
+            font-weight: bold;
+        }
+
+        .cons li::before {
+            content: '- ';
+            color: var(--danger);
+            font-weight: bold;
+        }
+
+        .bottom-line {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--secondary);
+            margin-top: 2rem;
+        }
+
+        .bottom-line h3 {
+            color: var(--secondary);
+            margin-top: 0;
+        }
+
+        code {
+            background: var(--bg);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            header h1 { font-size: 1.75rem; }
+            .pros-cons { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="architecture-and-plan.html" class="back-link">
+            <span>&larr;</span> Back to Architecture
+        </a>
+
+        <header>
+            <h1>Why NestJS + TypeScript?</h1>
+            <p>Technology choice justification for TipsyDrive backend</p>
+            <div class="selected-badge">Current Selection: NestJS</div>
+        </header>
+
+        <!-- Why NestJS Section -->
+        <section>
+            <h2>Why We Chose NestJS</h2>
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>Key Advantages</h3>
+                    <table>
+                        <tr>
+                            <th>Factor</th>
+                            <th>Benefit</th>
+                        </tr>
+                        <tr>
+                            <td>Real-time Support</td>
+                            <td>Native Socket.io integration, event-driven architecture ideal for live tracking</td>
+                        </tr>
+                        <tr>
+                            <td>Code Sharing</td>
+                            <td>Single language (TypeScript) across backend, mobile apps, and admin dashboard</td>
+                        </tr>
+                        <tr>
+                            <td>MVP Speed</td>
+                            <td>Faster iteration, less boilerplate, simpler ORM (Prisma vs JPA)</td>
+                        </tr>
+                        <tr>
+                            <td>Concurrency Model</td>
+                            <td>Event loop handles thousands of WebSocket connections efficiently</td>
+                        </tr>
+                        <tr>
+                            <td>Ecosystem</td>
+                            <td>NPM packages for Razorpay, MSG91, Firebase readily available</td>
+                        </tr>
+                        <tr>
+                            <td>Team Flexibility</td>
+                            <td>React Native developers can contribute to backend</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="card">
+                    <h3>TipsyDrive-Specific Fit</h3>
+                    <div class="grid grid-2" style="gap: 1rem; margin-top: 1rem;">
+                        <div style="padding: 1rem; background: var(--bg); border-radius: 8px;">
+                            <h4 style="color: var(--primary); margin-bottom: 0.5rem;">I/O Heavy Workload</h4>
+                            <small style="color: var(--text-muted);">Location updates, API calls, DB queries - Node.js excels at non-blocking I/O</small>
+                        </div>
+                        <div style="padding: 1rem; background: var(--bg); border-radius: 8px;">
+                            <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Real-time Core Feature</h4>
+                            <small style="color: var(--text-muted);">Live GPS tracking is essential - Socket.io is native to Node.js ecosystem</small>
+                        </div>
+                        <div style="padding: 1rem; background: var(--bg); border-radius: 8px;">
+                            <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Monorepo Benefits</h4>
+                            <small style="color: var(--text-muted);">Shared types between API and React Native apps reduce bugs</small>
+                        </div>
+                        <div style="padding: 1rem; background: var(--bg); border-radius: 8px;">
+                            <h4 style="color: var(--primary); margin-bottom: 0.5rem;">MVP Scale Profile</h4>
+                            <small style="color: var(--text-muted);">Single city MVP doesn't need enterprise features yet</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Table -->
+        <section>
+            <h2>Detailed Comparison</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>NestJS + Node.js</th>
+                        <th>Spring Boot + Java</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>WebSocket/Real-time</td>
+                        <td class="winner">Native Socket.io support</td>
+                        <td>STOMP/SockJS (more setup)</td>
+                    </tr>
+                    <tr>
+                        <td>Type Sharing</td>
+                        <td class="winner">Same TypeScript across stack</td>
+                        <td>Need code generation or separate definitions</td>
+                    </tr>
+                    <tr>
+                        <td>Concurrency</td>
+                        <td class="winner">Event loop (efficient for many connections)</td>
+                        <td>Thread-based (heavier memory per connection)</td>
+                    </tr>
+                    <tr>
+                        <td>ORM</td>
+                        <td class="winner">Prisma (simple, type-safe)</td>
+                        <td>JPA/Hibernate (powerful but complex)</td>
+                    </tr>
+                    <tr>
+                        <td>Startup Time</td>
+                        <td class="winner">Fast (seconds)</td>
+                        <td>Slower (JVM warmup)</td>
+                    </tr>
+                    <tr>
+                        <td>CPU Computation</td>
+                        <td>Limited (single-threaded JS)</td>
+                        <td class="winner">Excellent (multi-threaded)</td>
+                    </tr>
+                    <tr>
+                        <td>Enterprise Features</td>
+                        <td>Good for MVP scale</td>
+                        <td class="winner">Battle-tested for enterprise</td>
+                    </tr>
+                    <tr>
+                        <td>Type Safety</td>
+                        <td>TypeScript (runtime optional)</td>
+                        <td class="winner">Java (compile-time enforced)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Alternatives Section -->
+        <section>
+            <h2>Alternative Options Considered</h2>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">Spring Boot + Java/Kotlin</span>
+                    <span class="alternative-tag">Enterprise Standard</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Industry-standard Java framework with mature ecosystem and enterprise support.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Excellent for CPU-intensive tasks</li>
+                            <li>Strong compile-time type safety</li>
+                            <li>Mature ecosystem (20+ years)</li>
+                            <li>Better for complex transactions</li>
+                            <li>Enterprise battle-tested</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>No code sharing with React Native</li>
+                            <li>WebSocket setup more complex</li>
+                            <li>Higher memory per connection</li>
+                            <li>Slower startup (JVM warmup)</li>
+                            <li>Steeper learning curve for JS devs</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; padding: 0.75rem; background: var(--bg); border-radius: 8px; font-size: 0.9rem;">
+                    <strong style="color: var(--warning);">When to use:</strong> If you have an existing Java team, need heavy CPU processing, or require complex distributed transactions.
+                </p>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">Express.js</span>
+                    <span class="alternative-tag">Minimal Node.js</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Lightweight, unopinionated Node.js framework for quick prototyping.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Very lightweight and fast</li>
+                            <li>Simple to learn</li>
+                            <li>Huge middleware ecosystem</li>
+                            <li>Maximum flexibility</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>No built-in structure/architecture</li>
+                            <li>Manual dependency injection</li>
+                            <li>No decorators/modules out of box</li>
+                            <li>Harder to maintain at scale</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; padding: 0.75rem; background: var(--bg); border-radius: 8px; font-size: 0.9rem;">
+                    <strong style="color: var(--warning);">When to use:</strong> Simple APIs, microservices, or when you need maximum control over architecture.
+                </p>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">FastAPI (Python)</span>
+                    <span class="alternative-tag">Modern Python</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">High-performance Python framework with automatic OpenAPI documentation.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Excellent for ML/AI integration</li>
+                            <li>Auto-generated API docs</li>
+                            <li>Type hints with Pydantic</li>
+                            <li>Great async support</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>No code sharing with React Native</li>
+                            <li>Smaller real-time ecosystem</li>
+                            <li>Different language from frontend</li>
+                            <li>Less enterprise adoption in India</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; padding: 0.75rem; background: var(--bg); border-radius: 8px; font-size: 0.9rem;">
+                    <strong style="color: var(--warning);">When to use:</strong> ML-heavy applications, data science backends, or Python-first teams.
+                </p>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">Go (Gin/Fiber)</span>
+                    <span class="alternative-tag">High Performance</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Compiled language with excellent concurrency and minimal resource usage.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Exceptional performance</li>
+                            <li>Low memory footprint</li>
+                            <li>Built-in concurrency (goroutines)</li>
+                            <li>Single binary deployment</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>No code sharing with React Native</li>
+                            <li>Smaller ecosystem than Node.js</li>
+                            <li>Learning curve for JS developers</li>
+                            <li>Less tooling for rapid prototyping</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; padding: 0.75rem; background: var(--bg); border-radius: 8px; font-size: 0.9rem;">
+                    <strong style="color: var(--warning);">When to use:</strong> High-throughput systems, microservices at scale, or infrastructure tooling.
+                </p>
+            </div>
+        </section>
+
+        <!-- Bottom Line -->
+        <div class="bottom-line">
+            <h3>Bottom Line</h3>
+            <p>For TipsyDrive's MVP - a <strong>real-time, I/O-heavy ride-hailing app</strong> with React Native mobile apps - NestJS provides:</p>
+            <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                <li>Faster development with TypeScript across the entire stack</li>
+                <li>Native real-time capabilities with Socket.io</li>
+                <li>Better code sharing between API and mobile apps</li>
+                <li>Efficient handling of concurrent WebSocket connections</li>
+            </ul>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 1rem;">
+                <strong>Future consideration:</strong> If TipsyDrive scales to enterprise level with heavy computational needs (route optimization, demand prediction ML), we may consider adding Go microservices for specific compute-heavy tasks while keeping NestJS for the main API.
+            </p>
+        </div>
+
+        <footer style="text-align: center; padding: 3rem 0; border-top: 1px solid var(--border); margin-top: 3rem; color: var(--text-muted);">
+            <a href="architecture-and-plan.html" style="color: var(--primary); text-decoration: none;">&larr; Back to Architecture & Plan</a>
+        </footer>
+    </div>
+</body>
+</html>

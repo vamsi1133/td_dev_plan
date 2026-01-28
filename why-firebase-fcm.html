@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Firebase FCM? - TipsyDrive Technology Choice</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #059669;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --bg: #ffffff;
+            --bg-card: #f8fafc;
+            --bg-card-hover: #f1f5f9;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-muted); text-decoration: none; margin-bottom: 2rem; transition: color 0.2s; }
+        .back-link:hover { color: var(--primary); }
+        header { text-align: center; padding: 2rem 0 3rem; border-bottom: 1px solid var(--border); margin-bottom: 3rem; }
+        header h1 { font-size: 2.5rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.5rem; }
+        header p { color: var(--text-muted); font-size: 1.1rem; }
+        .selected-badge { display: inline-block; padding: 0.5rem 1rem; background: var(--secondary); border-radius: 9999px; font-weight: 600; margin-top: 1rem; }
+        section { margin-bottom: 3rem; }
+        h2 { font-size: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary); display: inline-block; }
+        h3 { font-size: 1.25rem; margin: 1.5rem 0 1rem; color: var(--secondary); }
+        .card { background: var(--bg-card); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; border: 1px solid var(--border); transition: transform 0.2s, box-shadow 0.2s; }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+        .grid { display: grid; gap: 1.5rem; }
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: var(--bg-card); color: var(--primary); font-weight: 600; }
+        tr:hover { background: var(--bg-card-hover); }
+        .winner { color: var(--secondary); font-weight: 500; }
+        .alternative { background: var(--bg-card); border-radius: 12px; padding: 1.5rem; border: 1px solid var(--border); margin-bottom: 1rem; }
+        .alternative-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+        .alternative-name { font-size: 1.25rem; font-weight: 600; color: var(--warning); }
+        .alternative-tag { padding: 0.25rem 0.75rem; background: var(--bg-card-hover); border-radius: 9999px; font-size: 0.75rem; color: var(--text-muted); }
+        .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+        .pros h4 { color: var(--secondary); }
+        .cons h4 { color: var(--danger); }
+        .pros ul, .cons ul { list-style: none; margin-top: 0.5rem; }
+        .pros li::before { content: '+ '; color: var(--secondary); font-weight: bold; }
+        .cons li::before { content: '- '; color: var(--danger); font-weight: bold; }
+        .bottom-line { background: var(--bg-card); border-radius: 12px; padding: 1.5rem; border-left: 4px solid var(--secondary); margin-top: 2rem; }
+        .bottom-line h3 { color: var(--secondary); margin-top: 0; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem; }
+        .feature-item { padding: 1rem; background: var(--bg); border-radius: 8px; border-left: 3px solid var(--primary); }
+        .feature-item h4 { color: var(--primary); margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .feature-item small { color: var(--text-muted); }
+        pre { background: var(--bg); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: 'Fira Code', 'Consolas', monospace; font-size: 0.85rem; line-height: 1.5; margin: 1rem 0; }
+        @media (max-width: 768px) { .container { padding: 1rem; } header h1 { font-size: 1.75rem; } .pros-cons { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="architecture-and-plan.html" class="back-link"><span>&larr;</span> Back to Architecture</a>
+
+        <header>
+            <h1>Why Firebase Cloud Messaging?</h1>
+            <p>Technology choice justification for TipsyDrive push notifications</p>
+            <div class="selected-badge">Current Selection: Firebase FCM</div>
+        </header>
+
+        <section>
+            <h2>TipsyDrive Push Notification Needs</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h4>Driver Ride Alerts</h4>
+                    <small>New ride request notifications to nearby drivers</small>
+                </div>
+                <div class="feature-item">
+                    <h4>Ride Status</h4>
+                    <small>Driver accepted, arriving, started, completed</small>
+                </div>
+                <div class="feature-item">
+                    <h4>Chat Messages</h4>
+                    <small>In-app chat between customer and driver</small>
+                </div>
+                <div class="feature-item">
+                    <h4>Promotions</h4>
+                    <small>Marketing notifications for offers and discounts</small>
+                </div>
+                <div class="feature-item">
+                    <h4>Silent Updates</h4>
+                    <small>Background data sync for location updates</small>
+                </div>
+                <div class="feature-item">
+                    <h4>Topics</h4>
+                    <small>City-wide announcements to driver groups</small>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Why We Chose Firebase FCM</h2>
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>Key Advantages</h3>
+                    <table>
+                        <tr><th>Factor</th><th>Benefit</th></tr>
+                        <tr><td>Cost</td><td>Completely free, unlimited messages</td></tr>
+                        <tr><td>Reliability</td><td>Google infrastructure, 99.9% uptime</td></tr>
+                        <tr><td>Cross-Platform</td><td>iOS, Android, Web from single API</td></tr>
+                        <tr><td>React Native</td><td>@react-native-firebase/messaging</td></tr>
+                        <tr><td>Topics</td><td>Subscribe drivers to city/zone topics</td></tr>
+                        <tr><td>Analytics</td><td>Delivery and open rate tracking</td></tr>
+                    </table>
+                </div>
+                <div class="card">
+                    <h3>Code Example</h3>
+                    <pre>// Backend - Send push notification
+import * as admin from 'firebase-admin';
+
+await admin.messaging().send({
+  token: driver.fcmToken,
+  notification: {
+    title: 'New Ride Request!',
+    body: 'Pickup: MG Road, Fare: ₹150',
+  },
+  data: {
+    rideId: ride.id,
+    type: 'NEW_RIDE_REQUEST',
+  },
+  android: {
+    priority: 'high',
+    ttl: 60000, // 60 seconds
+  },
+  apns: {
+    payload: {
+      aps: { sound: 'default' }
+    }
+  }
+});</pre>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Detailed Comparison</h2>
+            <table>
+                <thead>
+                    <tr><th>Aspect</th><th>Firebase FCM</th><th>OneSignal</th><th>AWS SNS</th><th>Pusher Beams</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Cost</td><td class="winner">Free</td><td>Free tier + paid</td><td>Pay per million</td><td>Pay per device</td></tr>
+                    <tr><td>Cross-Platform</td><td class="winner">iOS, Android, Web</td><td class="winner">iOS, Android, Web</td><td class="winner">iOS, Android, Web</td><td class="winner">iOS, Android, Web</td></tr>
+                    <tr><td>React Native</td><td class="winner">Excellent</td><td>Good</td><td>Manual</td><td>Good</td></tr>
+                    <tr><td>Topics/Segments</td><td class="winner">Topics</td><td class="winner">Advanced segments</td><td>Topics</td><td>Interests</td></tr>
+                    <tr><td>Analytics</td><td>Basic</td><td class="winner">Advanced</td><td>CloudWatch</td><td>Good</td></tr>
+                    <tr><td>Rich Media</td><td>Images, actions</td><td class="winner">Rich media</td><td>Basic</td><td>Good</td></tr>
+                    <tr><td>Scheduling</td><td>Via backend</td><td class="winner">Built-in</td><td>Via Lambda</td><td>Built-in</td></tr>
+                    <tr><td>A/B Testing</td><td>Via Firebase</td><td class="winner">Built-in</td><td>Manual</td><td>Limited</td></tr>
+                    <tr><td>Reliability</td><td class="winner">Google infra</td><td>Good</td><td class="winner">AWS infra</td><td>Good</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>Alternative Options Considered</h2>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">OneSignal</span>
+                    <span class="alternative-tag">Feature-Rich</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Popular push notification platform with advanced features.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Excellent dashboard</li>
+                            <li>Advanced segmentation</li>
+                            <li>A/B testing built-in</li>
+                            <li>Scheduled notifications</li>
+                            <li>Generous free tier</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>Paid beyond free tier</li>
+                            <li>Another service to manage</li>
+                            <li>FCM still used under the hood</li>
+                            <li>Extra abstraction layer</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; padding: 0.75rem; background: var(--bg); border-radius: 8px; font-size: 0.9rem;">
+                    <strong style="color: var(--warning);">Future consideration:</strong> OneSignal is great if we need advanced segmentation and marketing automation.
+                </p>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">AWS SNS</span>
+                    <span class="alternative-tag">AWS Native</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">AWS's push notification service integrated with AWS ecosystem.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>AWS ecosystem integration</li>
+                            <li>Highly scalable</li>
+                            <li>Pay-per-use pricing</li>
+                            <li>SMS fallback option</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>More complex setup</li>
+                            <li>Less React Native support</li>
+                            <li>Costs at scale</li>
+                            <li>FCM still needed for Android</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">Expo Notifications</span>
+                    <span class="alternative-tag">Expo Ecosystem</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Expo's push notification service for Expo apps.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Simple API (expo-notifications)</li>
+                            <li>Works with Expo push tokens</li>
+                            <li>Free tier available</li>
+                            <li>Easy for Expo apps</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>Adds Expo dependency</li>
+                            <li>Less control vs direct FCM</li>
+                            <li>Paid beyond free tier</li>
+                            <li>Extra abstraction layer</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">Pusher Beams</span>
+                    <span class="alternative-tag">Pusher Product</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Push notification service from Pusher (real-time company).</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Clean API</li>
+                            <li>Good React Native SDK</li>
+                            <li>Device interests</li>
+                            <li>Authenticated users</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>Paid service</li>
+                            <li>Per-device pricing</li>
+                            <li>Smaller ecosystem</li>
+                            <li>FCM is free alternative</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="bottom-line">
+            <h3>Bottom Line</h3>
+            <p>For TipsyDrive's push notifications - <strong>ride alerts, status updates, and driver broadcasts</strong> - Firebase FCM provides:</p>
+            <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                <li>Completely free with unlimited messages</li>
+                <li>Google-grade reliability and infrastructure</li>
+                <li>Excellent React Native support via @react-native-firebase</li>
+                <li>Topic subscriptions for city/zone-based driver alerts</li>
+                <li>Cross-platform (iOS + Android) from single API</li>
+                <li>Data payloads for background processing</li>
+            </ul>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 1rem;">
+                <strong>Note:</strong> For time-critical notifications (new ride requests), we use FCM high-priority with TTL of 60 seconds. For promotional notifications, we use normal priority.
+            </p>
+        </div>
+
+        <footer style="text-align: center; padding: 3rem 0; border-top: 1px solid var(--border); margin-top: 3rem; color: var(--text-muted);">
+            <a href="architecture-and-plan.html" style="color: var(--primary); text-decoration: none;">&larr; Back to Architecture & Plan</a>
+        </footer>
+    </div>
+</body>
+</html>

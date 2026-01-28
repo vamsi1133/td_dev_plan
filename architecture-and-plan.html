@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TipsyDrive - Architecture & Development Plan</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #059669;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --bg: #ffffff;
+            --bg-card: #f8fafc;
+            --bg-card-hover: #f1f5f9;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin: 0.25rem;
+        }
+
+        .badge-primary { background: var(--primary); }
+        .badge-secondary { background: var(--secondary); }
+        .badge-warning { background: var(--warning); color: #000; }
+
+        section {
+            margin-bottom: 4rem;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+            display: inline-block;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--secondary);
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        .grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+        .grid-4 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--bg-card);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .architecture-diagram {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 2rem;
+            overflow-x: auto;
+        }
+
+        .arch-layer {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .arch-box {
+            background: var(--primary);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 150px;
+            font-weight: 500;
+        }
+
+        .arch-box.secondary { background: var(--secondary); }
+        .arch-box.warning { background: var(--warning); color: #000; }
+        .arch-box.muted { background: var(--bg-card-hover); border: 1px solid var(--border); }
+
+        .arch-connector {
+            text-align: center;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin: 0.5rem 0;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--primary);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 1.5rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 3px solid var(--bg);
+        }
+
+        .timeline-item.completed::before { background: var(--secondary); }
+        .timeline-item.in-progress::before { background: var(--warning); }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .phase-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .phase-weeks {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        code {
+            background: var(--bg);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: var(--bg);
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+            font-weight: bold;
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .status-dot.pending { background: var(--text-muted); }
+        .status-dot.active { background: var(--warning); }
+        .status-dot.done { background: var(--secondary); }
+
+        .db-schema {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.8rem;
+        }
+
+        .db-table {
+            margin-bottom: 1.5rem;
+        }
+
+        .db-table-name {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .db-field {
+            display: flex;
+            padding: 0.25rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .db-field-name {
+            color: var(--secondary);
+            min-width: 180px;
+        }
+
+        .db-field-type {
+            color: var(--text-muted);
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .nav-tab:hover, .nav-tab.active {
+            background: var(--primary);
+            color: var(--text);
+        }
+
+        .endpoint-group {
+            margin-bottom: 2rem;
+        }
+
+        .endpoint {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .method {
+            font-weight: 600;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .method.get { background: #3b82f6; }
+        .method.post { background: #22c55e; }
+        .method.put { background: #f59e0b; }
+        .method.delete { background: #ef4444; }
+
+        .endpoint-path {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+        }
+
+        .endpoint-desc {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-left: auto;
+        }
+
+        .btn-why {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text);
+            background: var(--primary);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-left: 0.5rem;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .btn-why:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            header h1 { font-size: 2rem; }
+            .arch-box { min-width: 120px; padding: 0.75rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>TipsyDrive</h1>
+            <p>On-Demand Driver Booking Platform</p>
+            <div style="margin-top: 1rem;">
+                <span class="badge badge-primary">MVP Phase</span>
+                <span class="badge badge-secondary">Single City</span>
+                <span class="badge badge-warning">India Market</span>
+            </div>
+        </header>
+
+        <!-- Overview Section -->
+        <section id="overview">
+            <h2>Project Overview</h2>
+            <div class="grid grid-3">
+                <div class="card">
+                    <h3>Party/Drinks Driver</h3>
+                    <p>Designated driver service for customers who've been drinking. Safe ride home in your own vehicle.</p>
+                </div>
+                <div class="card">
+                    <h3>Service Center Pickup/Drop</h3>
+                    <p>Vehicle pickup and drop service for car servicing. Driver takes your car to service center and back.</p>
+                </div>
+                <div class="card">
+                    <h3>Outstation Drives</h3>
+                    <p>Long-distance travel with professional drivers. Perfect for road trips and intercity travel.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tech Stack Section -->
+        <section id="tech-stack">
+            <h2>Technology Stack</h2>
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>Frontend</h3>
+                    <table>
+                        <tr><td>Mobile Apps</td><td><code>React Native 0.73+ (Expo)</code> <a href="why-react-native.html" class="btn-why">Why?</a></td></tr>
+                        <tr><td>Admin Dashboard</td><td><code>React + Vite + Ant Design</code> <a href="why-react-admin.html" class="btn-why">Why?</a></td></tr>
+                        <tr><td>State Management</td><td><code>Redux Toolkit</code> <a href="why-redux-toolkit.html" class="btn-why">Why?</a></td></tr>
+                        <tr><td>Data Fetching</td><td><code>TanStack Query</code> <a href="why-tanstack-query.html" class="btn-why">Why?</a></td></tr>
+                    </table>
+                </div>
+                <div class="card">
+                    <h3>Backend</h3>
+                    <table>
+                        <tr><td>Runtime</td><td><code>Node.js 20</code> <a href="why-nodejs.html" class="btn-why">Why?</a></td></tr>
+                        <tr><td>Framework</td><td><code>NestJS + TypeScript</code> <a href="why-nestjs.html" class="btn-why">Why?</a></td></tr>
+                        <tr><td>ORM</td><td><code>Prisma</code> <a href="why-prisma.html" class="btn-why">Why?</a></td></tr>
+                        <tr><td>Real-time</td><td><code>Socket.io + Redis Adapter</code> <a href="why-socketio.html" class="btn-why">Why?</a></td></tr>
+                    </table>
+                </div>
+                <div class="card">
+                    <h3>Database & Cache</h3>
+                    <table>
+                        <tr><td>Primary DB</td><td><code>PostgreSQL 15 + PostGIS</code> <a href="why-postgresql.html" class="btn-why">Why?</a></td></tr>
+                        <tr><td>Cache</td><td><code>Redis 7</code> <a href="why-redis.html" class="btn-why">Why?</a></td></tr>
+                        <tr><td>Job Queue</td><td><code>BullMQ</code> <a href="why-bullmq.html" class="btn-why">Why?</a></td></tr>
+                    </table>
+                </div>
+                <div class="card">
+                    <h3>External Services</h3>
+                    <table>
+                        <tr><td>Payments</td><td><code>Razorpay</code> <a href="why-razorpay.html" class="btn-why">Why?</a></td></tr>
+                        <tr><td>Maps</td><td><code>Google Maps Platform</code> <a href="why-google-maps.html" class="btn-why">Why?</a></td></tr>
+                        <tr><td>SMS/OTP</td><td><code>MSG91</code> <a href="why-msg91.html" class="btn-why">Why?</a></td></tr>
+                        <tr><td>Push</td><td><code>Firebase FCM</code> <a href="why-firebase-fcm.html" class="btn-why">Why?</a></td></tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture Section -->
+        <section id="architecture">
+            <h2>System Architecture</h2>
+
+            <h3>High-Level Architecture</h3>
+            <div class="architecture-diagram">
+                <div class="arch-layer">
+                    <div class="arch-box">Customer App<br><small>React Native</small></div>
+                    <div class="arch-box">Driver App<br><small>React Native</small></div>
+                    <div class="arch-box secondary">Admin Dashboard<br><small>React + Vite</small></div>
+                </div>
+                <div class="arch-connector">↓ Redux Toolkit + TanStack Query ↓</div>
+                <div class="arch-layer">
+                    <div class="arch-box warning">AWS ALB/NLB<br><small>Rate Limiting</small></div>
+                </div>
+                <div class="arch-connector">↓</div>
+                <div class="arch-layer">
+                    <div class="arch-box">NestJS API<br><small>REST + Auth</small></div>
+                    <div class="arch-box">Socket.io<br><small>Real-time</small></div>
+                    <div class="arch-box">BullMQ<br><small>Job Queue</small></div>
+                </div>
+                <div class="arch-connector">↓ Prisma ORM ↓</div>
+                <div class="arch-layer">
+                    <div class="arch-box muted">PostgreSQL<br><small>+ PostGIS</small></div>
+                    <div class="arch-box muted">Redis<br><small>Cache + Queue</small></div>
+                    <div class="arch-box muted">S3<br><small>Documents</small></div>
+                    <div class="arch-box muted">Firebase<br><small>FCM</small></div>
+                </div>
+                <div class="arch-connector">↓ External APIs ↓</div>
+                <div class="arch-layer">
+                    <div class="arch-box secondary">Razorpay</div>
+                    <div class="arch-box secondary">MSG91</div>
+                    <div class="arch-box secondary">Google Maps</div>
+                </div>
+            </div>
+
+            <h3>Project Structure (Nx Monorepo)</h3>
+            <pre>
+TipsyDrive/
+├── apps/
+│   ├── customer-app/              # React Native (Expo) - Customer mobile app
+│   ├── driver-app/                # React Native (Expo) - Driver mobile app
+│   ├── admin/                     # React + Vite + Ant Design - Admin dashboard
+│   └── api/                       # NestJS Backend API
+│       └── src/
+│           ├── modules/
+│           │   ├── auth/          # OTP authentication (MSG91)
+│           │   ├── users/         # User management
+│           │   ├── drivers/       # Driver onboarding & verification
+│           │   ├── rides/         # Booking & ride management
+│           │   ├── payments/      # Razorpay integration
+│           │   ├── tracking/      # Real-time location (Socket.io)
+│           │   └── notifications/ # FCM push notifications
+│           ├── common/            # Guards, interceptors, filters
+│           ├── config/            # Environment configuration
+│           └── prisma/            # Prisma service & schema
+├── libs/
+│   ├── shared-types/              # Shared TypeScript types/interfaces
+│   ├── shared-utils/              # Common utility functions
+│   └── api-client/                # Generated API client for apps
+├── prisma/
+│   ├── schema.prisma              # Database schema
+│   └── migrations/                # Database migrations
+├── docker-compose.yml             # Local dev (PostgreSQL + Redis)
+├── nx.json                        # Nx configuration
+└── .github/workflows/             # GitHub Actions CI/CD
+            </pre>
+        </section>
+
+        <!-- Database Schema Section -->
+        <section id="database">
+            <h2>Database Schema</h2>
+            <div class="grid grid-2">
+                <div class="card db-schema">
+                    <div class="db-table">
+                        <div class="db-table-name">users</div>
+                        <div class="db-field"><span class="db-field-name">id</span><span class="db-field-type">UUID PRIMARY KEY</span></div>
+                        <div class="db-field"><span class="db-field-name">phone</span><span class="db-field-type">VARCHAR(15) UNIQUE NOT NULL</span></div>
+                        <div class="db-field"><span class="db-field-name">name</span><span class="db-field-type">VARCHAR(100)</span></div>
+                        <div class="db-field"><span class="db-field-name">email</span><span class="db-field-type">VARCHAR(255) UNIQUE</span></div>
+                        <div class="db-field"><span class="db-field-name">profile_picture</span><span class="db-field-type">VARCHAR(500)</span></div>
+                        <div class="db-field"><span class="db-field-name">is_driver</span><span class="db-field-type">BOOLEAN DEFAULT FALSE</span></div>
+                        <div class="db-field"><span class="db-field-name">is_blocked</span><span class="db-field-type">BOOLEAN DEFAULT FALSE</span></div>
+                        <div class="db-field"><span class="db-field-name">created_at</span><span class="db-field-type">TIMESTAMP</span></div>
+                    </div>
+                    <div class="db-table">
+                        <div class="db-table-name">drivers</div>
+                        <div class="db-field"><span class="db-field-name">id</span><span class="db-field-type">UUID PRIMARY KEY</span></div>
+                        <div class="db-field"><span class="db-field-name">user_id</span><span class="db-field-type">UUID REFERENCES users(id)</span></div>
+                        <div class="db-field"><span class="db-field-name">license_number</span><span class="db-field-type">VARCHAR(20) NOT NULL</span></div>
+                        <div class="db-field"><span class="db-field-name">license_expiry</span><span class="db-field-type">DATE NOT NULL</span></div>
+                        <div class="db-field"><span class="db-field-name">vehicle_types</span><span class="db-field-type">VARCHAR[]</span></div>
+                        <div class="db-field"><span class="db-field-name">service_types</span><span class="db-field-type">VARCHAR[]</span></div>
+                        <div class="db-field"><span class="db-field-name">status</span><span class="db-field-type">ENUM(pending, approved, rejected, suspended)</span></div>
+                        <div class="db-field"><span class="db-field-name">rating</span><span class="db-field-type">DECIMAL(2,1)</span></div>
+                        <div class="db-field"><span class="db-field-name">is_online</span><span class="db-field-type">BOOLEAN</span></div>
+                    </div>
+                </div>
+                <div class="card db-schema">
+                    <div class="db-table">
+                        <div class="db-table-name">rides</div>
+                        <div class="db-field"><span class="db-field-name">id</span><span class="db-field-type">UUID PRIMARY KEY</span></div>
+                        <div class="db-field"><span class="db-field-name">ride_number</span><span class="db-field-type">VARCHAR(20) UNIQUE</span></div>
+                        <div class="db-field"><span class="db-field-name">customer_id</span><span class="db-field-type">UUID REFERENCES users(id)</span></div>
+                        <div class="db-field"><span class="db-field-name">driver_id</span><span class="db-field-type">UUID REFERENCES drivers(id)</span></div>
+                        <div class="db-field"><span class="db-field-name">service_type</span><span class="db-field-type">ENUM(party, service, outstation)</span></div>
+                        <div class="db-field"><span class="db-field-name">status</span><span class="db-field-type">ENUM(pending, searching, accepted...)</span></div>
+                        <div class="db-field"><span class="db-field-name">pickup_address</span><span class="db-field-type">VARCHAR(500)</span></div>
+                        <div class="db-field"><span class="db-field-name">pickup_location</span><span class="db-field-type">GEOGRAPHY(POINT)</span></div>
+                        <div class="db-field"><span class="db-field-name">drop_address</span><span class="db-field-type">VARCHAR(500)</span></div>
+                        <div class="db-field"><span class="db-field-name">estimated_fare</span><span class="db-field-type">DECIMAL(10,2)</span></div>
+                        <div class="db-field"><span class="db-field-name">actual_fare</span><span class="db-field-type">DECIMAL(10,2)</span></div>
+                    </div>
+                    <div class="db-table">
+                        <div class="db-table-name">payments</div>
+                        <div class="db-field"><span class="db-field-name">id</span><span class="db-field-type">UUID PRIMARY KEY</span></div>
+                        <div class="db-field"><span class="db-field-name">ride_id</span><span class="db-field-type">UUID REFERENCES rides(id)</span></div>
+                        <div class="db-field"><span class="db-field-name">amount</span><span class="db-field-type">DECIMAL(10,2)</span></div>
+                        <div class="db-field"><span class="db-field-name">status</span><span class="db-field-type">ENUM(pending, completed, failed)</span></div>
+                        <div class="db-field"><span class="db-field-name">method</span><span class="db-field-type">ENUM(upi, card, wallet, cash)</span></div>
+                        <div class="db-field"><span class="db-field-name">razorpay_order_id</span><span class="db-field-type">VARCHAR(50)</span></div>
+                        <div class="db-field"><span class="db-field-name">razorpay_payment_id</span><span class="db-field-type">VARCHAR(50)</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Additional Tables</h3>
+            <div class="grid grid-4">
+                <div class="card">
+                    <h4 style="color: var(--primary)">driver_documents</h4>
+                    <small class="text-muted">License, Aadhaar, PAN uploads with verification status</small>
+                </div>
+                <div class="card">
+                    <h4 style="color: var(--primary)">driver_locations</h4>
+                    <small class="text-muted">Real-time GPS with PostGIS spatial index</small>
+                </div>
+                <div class="card">
+                    <h4 style="color: var(--primary)">ride_tracking</h4>
+                    <small class="text-muted">GPS breadcrumbs during active rides</small>
+                </div>
+                <div class="card">
+                    <h4 style="color: var(--primary)">ride_ratings</h4>
+                    <small class="text-muted">Customer and driver ratings with feedback</small>
+                </div>
+                <div class="card">
+                    <h4 style="color: var(--primary)">driver_earnings</h4>
+                    <small class="text-muted">Per-ride earnings with commission breakdown</small>
+                </div>
+                <div class="card">
+                    <h4 style="color: var(--primary)">driver_payouts</h4>
+                    <small class="text-muted">Weekly payout processing records</small>
+                </div>
+                <div class="card">
+                    <h4 style="color: var(--primary)">admins</h4>
+                    <small class="text-muted">Admin users with roles</small>
+                </div>
+                <div class="card">
+                    <h4 style="color: var(--primary)">otps</h4>
+                    <small class="text-muted">OTP verification with rate limiting</small>
+                </div>
+            </div>
+        </section>
+
+        <!-- API Endpoints Section -->
+        <section id="api">
+            <h2>API Endpoints</h2>
+
+            <div class="endpoint-group">
+                <h3>Authentication</h3>
+                <div class="endpoint">
+                    <span class="method post">POST</span>
+                    <span class="endpoint-path">/api/v1/auth/send-otp</span>
+                    <span class="endpoint-desc">Send OTP to phone</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method post">POST</span>
+                    <span class="endpoint-path">/api/v1/auth/verify-otp</span>
+                    <span class="endpoint-desc">Verify OTP and get tokens</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method post">POST</span>
+                    <span class="endpoint-path">/api/v1/auth/refresh</span>
+                    <span class="endpoint-desc">Refresh access token</span>
+                </div>
+            </div>
+
+            <div class="endpoint-group">
+                <h3>Rides</h3>
+                <div class="endpoint">
+                    <span class="method post">POST</span>
+                    <span class="endpoint-path">/api/v1/rides/estimate</span>
+                    <span class="endpoint-desc">Get fare estimate</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method post">POST</span>
+                    <span class="endpoint-path">/api/v1/rides</span>
+                    <span class="endpoint-desc">Create new ride request</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method get">GET</span>
+                    <span class="endpoint-path">/api/v1/rides</span>
+                    <span class="endpoint-desc">List user's rides</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method get">GET</span>
+                    <span class="endpoint-path">/api/v1/rides/:id</span>
+                    <span class="endpoint-desc">Get ride details</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method post">POST</span>
+                    <span class="endpoint-path">/api/v1/rides/:id/cancel</span>
+                    <span class="endpoint-desc">Cancel ride</span>
+                </div>
+            </div>
+
+            <div class="endpoint-group">
+                <h3>Driver</h3>
+                <div class="endpoint">
+                    <span class="method post">POST</span>
+                    <span class="endpoint-path">/api/v1/drivers/register</span>
+                    <span class="endpoint-desc">Start driver registration</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method post">POST</span>
+                    <span class="endpoint-path">/api/v1/drivers/documents</span>
+                    <span class="endpoint-desc">Upload document</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method put">PUT</span>
+                    <span class="endpoint-path">/api/v1/drivers/availability</span>
+                    <span class="endpoint-desc">Toggle online/offline</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method post">POST</span>
+                    <span class="endpoint-path">/api/v1/drivers/rides/:id/accept</span>
+                    <span class="endpoint-desc">Accept ride</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method post">POST</span>
+                    <span class="endpoint-path">/api/v1/drivers/rides/:id/complete</span>
+                    <span class="endpoint-desc">Complete ride</span>
+                </div>
+            </div>
+
+            <div class="endpoint-group">
+                <h3>Payments</h3>
+                <div class="endpoint">
+                    <span class="method post">POST</span>
+                    <span class="endpoint-path">/api/v1/payments/create-order</span>
+                    <span class="endpoint-desc">Create Razorpay order</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method post">POST</span>
+                    <span class="endpoint-path">/api/v1/payments/verify</span>
+                    <span class="endpoint-desc">Verify payment signature</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method post">POST</span>
+                    <span class="endpoint-path">/api/v1/payments/webhook</span>
+                    <span class="endpoint-desc">Razorpay webhook</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Development Timeline -->
+        <section id="timeline">
+            <h2>Development Timeline</h2>
+
+            <div class="card">
+                <h3>Phase 1: MVP (Weeks 1-10)</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="phase-header">
+                            <span class="phase-title">Foundation Setup</span>
+                            <span class="phase-weeks">Week 1-2</span>
+                        </div>
+                        <ul class="feature-list">
+                            <li>Nx Monorepo initialization</li>
+                            <li>Docker Compose (PostgreSQL + Redis)</li>
+                            <li>Prisma schema with PostGIS</li>
+                            <li>NestJS base setup with config & validation</li>
+                            <li>CI/CD with GitHub Actions</li>
+                        </ul>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="phase-header">
+                            <span class="phase-title">Authentication & Users</span>
+                            <span class="phase-weeks">Week 3-4</span>
+                        </div>
+                        <ul class="feature-list">
+                            <li>MSG91 OTP integration</li>
+                            <li>JWT authentication with refresh tokens</li>
+                            <li>User profile management</li>
+                            <li>Driver registration & document upload to S3</li>
+                            <li>Admin verification workflow</li>
+                        </ul>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="phase-header">
+                            <span class="phase-title">Core Business Logic</span>
+                            <span class="phase-weeks">Week 5-6</span>
+                        </div>
+                        <ul class="feature-list">
+                            <li>Ride booking flow</li>
+                            <li>Google Maps integration (geocoding, directions)</li>
+                            <li>Fare estimation algorithm</li>
+                            <li>Driver matching (broadcast model)</li>
+                            <li>Socket.io real-time tracking</li>
+                        </ul>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="phase-header">
+                            <span class="phase-title">Payments & Notifications</span>
+                            <span class="phase-weeks">Week 7-8</span>
+                        </div>
+                        <ul class="feature-list">
+                            <li>Razorpay integration (orders, verification)</li>
+                            <li>Payment webhooks</li>
+                            <li>Firebase FCM push notifications</li>
+                            <li>BullMQ job queue setup</li>
+                        </ul>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="phase-header">
+                            <span class="phase-title">Mobile Apps & Dashboard</span>
+                            <span class="phase-weeks">Week 9-10</span>
+                        </div>
+                        <ul class="feature-list">
+                            <li>Customer app (all screens)</li>
+                            <li>Driver app (all screens)</li>
+                            <li>Admin dashboard (verification, rides, users)</li>
+                            <li>Integration testing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-2" style="margin-top: 1.5rem;">
+                <div class="card">
+                    <h3>Phase 2: Enhanced (Weeks 11-18)</h3>
+                    <ul class="feature-list">
+                        <li>Scheduled rides (future booking)</li>
+                        <li>IDfy background verification</li>
+                        <li>Driver earnings dashboard + payouts</li>
+                        <li>SOS emergency button</li>
+                        <li>Ride sharing link</li>
+                        <li>Promo codes system</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Phase 3: Growth (Weeks 19-26)</h3>
+                    <ul class="feature-list">
+                        <li>Multi-city expansion</li>
+                        <li>Surge pricing algorithm</li>
+                        <li>Corporate accounts</li>
+                        <li>Advanced analytics dashboard</li>
+                        <li>Partner API</li>
+                        <li>In-app chat</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Business Rules Section -->
+        <section id="business">
+            <h2>Business Configuration</h2>
+            <div class="grid grid-3">
+                <div class="card">
+                    <h3>Fare Calculation</h3>
+                    <pre>
+baseFare = ₹50
+perKm = ₹12
+perMin = ₹2
+minimumFare = ₹100
+
+fare = baseFare + (distance × perKm)
+     + (duration × perMin)
+
+// Service multipliers
+partyDriver: 1.0x
+servicePickup: 1.0x
+outstation: 0.9x (10% discount)
+                    </pre>
+                </div>
+                <div class="card">
+                    <h3>Commission</h3>
+                    <table>
+                        <tr><td>Platform Fee</td><td>15%</td></tr>
+                        <tr><td>Driver Share</td><td>85%</td></tr>
+                    </table>
+                    <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.9rem;">
+                        Example: ₹100 fare<br>
+                        Driver gets ₹85<br>
+                        Platform gets ₹15
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Matching Rules</h3>
+                    <table>
+                        <tr><td>Accept Timeout</td><td>60 seconds</td></tr>
+                        <tr><td>Initial Radius</td><td>3 km</td></tr>
+                        <tr><td>Expand To</td><td>5km → 8km</td></tr>
+                        <tr><td>Model</td><td>Broadcast</td></tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Socket Events Section -->
+        <section id="realtime">
+            <h2>Real-time Events (Socket.io)</h2>
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>Customer Events</h3>
+                    <h4 style="color: var(--secondary); margin: 1rem 0 0.5rem;">Emit</h4>
+                    <code>customer:request-ride</code><br>
+                    <code>customer:cancel-ride</code><br>
+                    <code>chat:send-message</code>
+
+                    <h4 style="color: var(--primary); margin: 1rem 0 0.5rem;">Listen</h4>
+                    <code>driver:accepted</code><br>
+                    <code>driver:location</code><br>
+                    <code>ride:status-changed</code><br>
+                    <code>chat:new-message</code>
+                </div>
+                <div class="card">
+                    <h3>Driver Events</h3>
+                    <h4 style="color: var(--secondary); margin: 1rem 0 0.5rem;">Emit</h4>
+                    <code>driver:location-update</code><br>
+                    <code>driver:accept-ride</code><br>
+                    <code>driver:start-ride</code><br>
+                    <code>driver:complete-ride</code>
+
+                    <h4 style="color: var(--primary); margin: 1rem 0 0.5rem;">Listen</h4>
+                    <code>ride:new-request</code><br>
+                    <code>ride:cancelled</code><br>
+                    <code>chat:new-message</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- Infrastructure Section -->
+        <section id="infrastructure">
+            <h2>Infrastructure (AWS Mumbai)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Specification</th>
+                        <th>Est. Cost/month</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>ECS Fargate (API)</td><td>2x t3.medium</td><td>$150</td></tr>
+                    <tr><td>RDS PostgreSQL</td><td>db.t3.medium Multi-AZ</td><td>$100</td></tr>
+                    <tr><td>ElastiCache Redis</td><td>cache.t3.small (2 nodes)</td><td>$50</td></tr>
+                    <tr><td>S3 + CloudFront</td><td>Standard usage</td><td>$30</td></tr>
+                    <tr><td>Load Balancers</td><td>2 ALBs</td><td>$40</td></tr>
+                    <tr><td>Misc (VPC, etc)</td><td>-</td><td>$30</td></tr>
+                    <tr style="font-weight: bold; color: var(--primary);">
+                        <td>Total</td><td></td><td>~$400/month</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <footer style="text-align: center; padding: 3rem 0; border-top: 1px solid var(--border); margin-top: 3rem; color: var(--text-muted);">
+            <p>TipsyDrive - On-Demand Driver Booking Platform</p>
+            <p style="font-size: 0.85rem; margin-top: 0.5rem;">MVP Target: Single City | Market: India</p>
+        </footer>
+    </div>
+</body>
+</html>

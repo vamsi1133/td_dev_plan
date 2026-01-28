@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Razorpay? - TipsyDrive Technology Choice</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #059669;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --bg: #ffffff;
+            --bg-card: #f8fafc;
+            --bg-card-hover: #f1f5f9;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-muted); text-decoration: none; margin-bottom: 2rem; transition: color 0.2s; }
+        .back-link:hover { color: var(--primary); }
+        header { text-align: center; padding: 2rem 0 3rem; border-bottom: 1px solid var(--border); margin-bottom: 3rem; }
+        header h1 { font-size: 2.5rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.5rem; }
+        header p { color: var(--text-muted); font-size: 1.1rem; }
+        .selected-badge { display: inline-block; padding: 0.5rem 1rem; background: var(--secondary); border-radius: 9999px; font-weight: 600; margin-top: 1rem; }
+        section { margin-bottom: 3rem; }
+        h2 { font-size: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary); display: inline-block; }
+        h3 { font-size: 1.25rem; margin: 1.5rem 0 1rem; color: var(--secondary); }
+        .card { background: var(--bg-card); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; border: 1px solid var(--border); transition: transform 0.2s, box-shadow 0.2s; }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+        .grid { display: grid; gap: 1.5rem; }
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: var(--bg-card); color: var(--primary); font-weight: 600; }
+        tr:hover { background: var(--bg-card-hover); }
+        .winner { color: var(--secondary); font-weight: 500; }
+        .alternative { background: var(--bg-card); border-radius: 12px; padding: 1.5rem; border: 1px solid var(--border); margin-bottom: 1rem; }
+        .alternative-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+        .alternative-name { font-size: 1.25rem; font-weight: 600; color: var(--warning); }
+        .alternative-tag { padding: 0.25rem 0.75rem; background: var(--bg-card-hover); border-radius: 9999px; font-size: 0.75rem; color: var(--text-muted); }
+        .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+        .pros h4 { color: var(--secondary); }
+        .cons h4 { color: var(--danger); }
+        .pros ul, .cons ul { list-style: none; margin-top: 0.5rem; }
+        .pros li::before { content: '+ '; color: var(--secondary); font-weight: bold; }
+        .cons li::before { content: '- '; color: var(--danger); font-weight: bold; }
+        .bottom-line { background: var(--bg-card); border-radius: 12px; padding: 1.5rem; border-left: 4px solid var(--secondary); margin-top: 2rem; }
+        .bottom-line h3 { color: var(--secondary); margin-top: 0; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem; }
+        .feature-item { padding: 1rem; background: var(--bg); border-radius: 8px; border-left: 3px solid var(--primary); }
+        .feature-item h4 { color: var(--primary); margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .feature-item small { color: var(--text-muted); }
+        .pricing { background: var(--bg); padding: 1rem; border-radius: 8px; margin-top: 1rem; }
+        .pricing h4 { color: var(--warning); margin-bottom: 0.5rem; }
+        @media (max-width: 768px) { .container { padding: 1rem; } header h1 { font-size: 1.75rem; } .pros-cons { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="architecture-and-plan.html" class="back-link"><span>&larr;</span> Back to Architecture</a>
+
+        <header>
+            <h1>Why Razorpay?</h1>
+            <p>Technology choice justification for TipsyDrive payment gateway</p>
+            <div class="selected-badge">Current Selection: Razorpay</div>
+        </header>
+
+        <section>
+            <h2>TipsyDrive Payment Needs</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h4>UPI Payments</h4>
+                    <small>India's most popular payment method</small>
+                </div>
+                <div class="feature-item">
+                    <h4>Cards</h4>
+                    <small>Debit/Credit cards with 3D Secure</small>
+                </div>
+                <div class="feature-item">
+                    <h4>Wallets</h4>
+                    <small>Paytm, PhonePe, etc.</small>
+                </div>
+                <div class="feature-item">
+                    <h4>Auto-Debit</h4>
+                    <small>Recurring payments for subscriptions</small>
+                </div>
+                <div class="feature-item">
+                    <h4>Payouts (RazorpayX)</h4>
+                    <small>Driver payouts to bank accounts</small>
+                </div>
+                <div class="feature-item">
+                    <h4>Split Payments</h4>
+                    <small>Route payments between platform and drivers</small>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Why We Chose Razorpay</h2>
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>Key Advantages</h3>
+                    <table>
+                        <tr><th>Factor</th><th>Benefit</th></tr>
+                        <tr><td>India Focus</td><td>Built for Indian market, all local payment methods</td></tr>
+                        <tr><td>UPI Support</td><td>Seamless UPI with intent flow and QR</td></tr>
+                        <tr><td>Easy Integration</td><td>Excellent Node.js SDK and docs</td></tr>
+                        <tr><td>RazorpayX</td><td>Built-in payouts for driver settlements</td></tr>
+                        <tr><td>Route (Split)</td><td>Commission splitting at transaction level</td></tr>
+                        <tr><td>Webhooks</td><td>Reliable webhooks for payment events</td></tr>
+                    </table>
+                </div>
+                <div class="card">
+                    <h3>TipsyDrive Payment Flow</h3>
+                    <div class="feature-grid">
+                        <div class="feature-item">
+                            <h4>1. Create Order</h4>
+                            <small>Backend creates Razorpay order with fare amount</small>
+                        </div>
+                        <div class="feature-item">
+                            <h4>2. Customer Pays</h4>
+                            <small>UPI/Card via Razorpay Checkout in app</small>
+                        </div>
+                        <div class="feature-item">
+                            <h4>3. Verify Signature</h4>
+                            <small>Backend verifies payment authenticity</small>
+                        </div>
+                        <div class="feature-item">
+                            <h4>4. Weekly Payout</h4>
+                            <small>RazorpayX transfers to driver bank accounts</small>
+                        </div>
+                    </div>
+                    <div class="pricing">
+                        <h4>Pricing</h4>
+                        <p>2% per transaction (standard rate for Indian gateways)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Detailed Comparison</h2>
+            <table>
+                <thead>
+                    <tr><th>Aspect</th><th>Razorpay</th><th>PayU</th><th>Cashfree</th><th>Stripe</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>UPI Support</td><td class="winner">Excellent</td><td class="winner">Excellent</td><td class="winner">Excellent</td><td>Limited</td></tr>
+                    <tr><td>Payouts</td><td class="winner">RazorpayX (integrated)</td><td>PayU Payouts</td><td class="winner">Cashfree Payouts</td><td>Connect (complex)</td></tr>
+                    <tr><td>Split Payments</td><td class="winner">Route (native)</td><td>Available</td><td>Available</td><td class="winner">Connect</td></tr>
+                    <tr><td>React Native SDK</td><td class="winner">Official SDK</td><td>Official SDK</td><td>Official SDK</td><td class="winner">Official SDK</td></tr>
+                    <tr><td>Documentation</td><td class="winner">Excellent</td><td>Good</td><td>Good</td><td class="winner">Excellent</td></tr>
+                    <tr><td>Dashboard</td><td class="winner">Very good</td><td>Good</td><td>Good</td><td class="winner">Excellent</td></tr>
+                    <tr><td>Settlement Time</td><td>T+2 days</td><td>T+2 days</td><td class="winner">T+1 available</td><td>T+2 days</td></tr>
+                    <tr><td>Pricing</td><td>2%</td><td>2%</td><td>1.9%</td><td>2% + forex</td></tr>
+                    <tr><td>India Market Share</td><td class="winner">Highest</td><td>High</td><td>Growing</td><td>Limited</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>Alternative Options Considered</h2>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">PayU India</span>
+                    <span class="alternative-tag">Established Player</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">One of India's oldest payment gateways with wide coverage.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Established brand</li>
+                            <li>Good UPI support</li>
+                            <li>EMI options</li>
+                            <li>Multi-currency</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>Dashboard less intuitive</li>
+                            <li>Payout integration separate</li>
+                            <li>Documentation not as good</li>
+                            <li>Less developer-friendly</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">Cashfree</span>
+                    <span class="alternative-tag">Growing Alternative</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Fast-growing payment gateway with competitive pricing.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Slightly lower pricing (1.9%)</li>
+                            <li>Faster settlements (T+1)</li>
+                            <li>Good payout system</li>
+                            <li>Auto-collect feature</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>Smaller market presence</li>
+                            <li>Less brand recognition</li>
+                            <li>React Native SDK less mature</li>
+                            <li>Split payments less flexible</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; padding: 0.75rem; background: var(--bg); border-radius: 8px; font-size: 0.9rem;">
+                    <strong style="color: var(--warning);">Future consideration:</strong> Cashfree is a solid backup option if Razorpay pricing becomes unfavorable.
+                </p>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">Stripe</span>
+                    <span class="alternative-tag">Global Standard</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">World's most developer-friendly payment platform.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Best developer experience</li>
+                            <li>Excellent documentation</li>
+                            <li>Great for international</li>
+                            <li>Advanced fraud detection</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>UPI support limited in India</li>
+                            <li>Local wallets not supported</li>
+                            <li>Forex charges for INR</li>
+                            <li>Not ideal for India-only MVP</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">PhonePe Payment Gateway</span>
+                    <span class="alternative-tag">Walmart-Backed</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">PhonePe's B2B payment gateway solution.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Strong UPI expertise</li>
+                            <li>Large user base</li>
+                            <li>Competitive pricing</li>
+                            <li>Growing platform</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>Newer as gateway</li>
+                            <li>Less feature-rich</li>
+                            <li>Payout system less mature</li>
+                            <li>Smaller developer ecosystem</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="bottom-line">
+            <h3>Bottom Line</h3>
+            <p>For TipsyDrive's payments - requiring <strong>UPI, cards, and driver payouts in India</strong> - Razorpay provides:</p>
+            <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                <li>All Indian payment methods (UPI, cards, wallets) in one integration</li>
+                <li>RazorpayX for automated driver payouts to bank accounts</li>
+                <li>Route for splitting payments between platform and drivers</li>
+                <li>Excellent React Native SDK for in-app payments</li>
+                <li>Reliable webhooks for payment confirmation</li>
+                <li>Market leader with trusted brand in India</li>
+            </ul>
+        </div>
+
+        <footer style="text-align: center; padding: 3rem 0; border-top: 1px solid var(--border); margin-top: 3rem; color: var(--text-muted);">
+            <a href="architecture-and-plan.html" style="color: var(--primary); text-decoration: none;">&larr; Back to Architecture & Plan</a>
+        </footer>
+    </div>
+</body>
+</html>

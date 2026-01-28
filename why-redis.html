@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Redis? - TipsyDrive Technology Choice</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #059669;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --bg: #ffffff;
+            --bg-card: #f8fafc;
+            --bg-card-hover: #f1f5f9;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-muted); text-decoration: none; margin-bottom: 2rem; transition: color 0.2s; }
+        .back-link:hover { color: var(--primary); }
+        header { text-align: center; padding: 2rem 0 3rem; border-bottom: 1px solid var(--border); margin-bottom: 3rem; }
+        header h1 { font-size: 2.5rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.5rem; }
+        header p { color: var(--text-muted); font-size: 1.1rem; }
+        .selected-badge { display: inline-block; padding: 0.5rem 1rem; background: var(--secondary); border-radius: 9999px; font-weight: 600; margin-top: 1rem; }
+        section { margin-bottom: 3rem; }
+        h2 { font-size: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary); display: inline-block; }
+        h3 { font-size: 1.25rem; margin: 1.5rem 0 1rem; color: var(--secondary); }
+        .card { background: var(--bg-card); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; border: 1px solid var(--border); transition: transform 0.2s, box-shadow 0.2s; }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+        .grid { display: grid; gap: 1.5rem; }
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: var(--bg-card); color: var(--primary); font-weight: 600; }
+        tr:hover { background: var(--bg-card-hover); }
+        .winner { color: var(--secondary); font-weight: 500; }
+        .alternative { background: var(--bg-card); border-radius: 12px; padding: 1.5rem; border: 1px solid var(--border); margin-bottom: 1rem; }
+        .alternative-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+        .alternative-name { font-size: 1.25rem; font-weight: 600; color: var(--warning); }
+        .alternative-tag { padding: 0.25rem 0.75rem; background: var(--bg-card-hover); border-radius: 9999px; font-size: 0.75rem; color: var(--text-muted); }
+        .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+        .pros h4 { color: var(--secondary); }
+        .cons h4 { color: var(--danger); }
+        .pros ul, .cons ul { list-style: none; margin-top: 0.5rem; }
+        .pros li::before { content: '+ '; color: var(--secondary); font-weight: bold; }
+        .cons li::before { content: '- '; color: var(--danger); font-weight: bold; }
+        .bottom-line { background: var(--bg-card); border-radius: 12px; padding: 1.5rem; border-left: 4px solid var(--secondary); margin-top: 2rem; }
+        .bottom-line h3 { color: var(--secondary); margin-top: 0; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem; }
+        .feature-item { padding: 1rem; background: var(--bg); border-radius: 8px; border-left: 3px solid var(--primary); }
+        .feature-item h4 { color: var(--primary); margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .feature-item small { color: var(--text-muted); }
+        @media (max-width: 768px) { .container { padding: 1rem; } header h1 { font-size: 1.75rem; } .pros-cons { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="architecture-and-plan.html" class="back-link"><span>&larr;</span> Back to Architecture</a>
+
+        <header>
+            <h1>Why Redis 7?</h1>
+            <p>Technology choice justification for TipsyDrive caching layer</p>
+            <div class="selected-badge">Current Selection: Redis 7</div>
+        </header>
+
+        <section>
+            <h2>TipsyDrive Redis Use Cases</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h4>Session Cache</h4>
+                    <small>JWT token blacklist, refresh token storage</small>
+                </div>
+                <div class="feature-item">
+                    <h4>Socket.io Adapter</h4>
+                    <small>Sync WebSocket connections across servers</small>
+                </div>
+                <div class="feature-item">
+                    <h4>Rate Limiting</h4>
+                    <small>API rate limits, OTP attempt tracking</small>
+                </div>
+                <div class="feature-item">
+                    <h4>Driver Locations</h4>
+                    <small>Real-time location cache with geo commands</small>
+                </div>
+                <div class="feature-item">
+                    <h4>BullMQ Backend</h4>
+                    <small>Job queue storage and processing</small>
+                </div>
+                <div class="feature-item">
+                    <h4>Pub/Sub</h4>
+                    <small>Real-time event broadcasting</small>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Why We Chose Redis</h2>
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>Key Advantages</h3>
+                    <table>
+                        <tr><th>Factor</th><th>Benefit</th></tr>
+                        <tr><td>Speed</td><td>Sub-millisecond latency (in-memory)</td></tr>
+                        <tr><td>Data Structures</td><td>Strings, hashes, lists, sets, sorted sets, geo</td></tr>
+                        <tr><td>Pub/Sub</td><td>Built-in message broadcasting</td></tr>
+                        <tr><td>Geospatial</td><td>GEOADD, GEORADIUS for location queries</td></tr>
+                        <tr><td>TTL</td><td>Automatic expiration for cache entries</td></tr>
+                        <tr><td>AWS ElastiCache</td><td>Managed Redis with clustering</td></tr>
+                    </table>
+                </div>
+                <div class="card">
+                    <h3>Redis 7 Features</h3>
+                    <div class="feature-grid">
+                        <div class="feature-item">
+                            <h4>Redis Functions</h4>
+                            <small>Server-side Lua scripting with persistence</small>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Sharded Pub/Sub</h4>
+                            <small>Scalable pub/sub for clusters</small>
+                        </div>
+                        <div class="feature-item">
+                            <h4>ACL v2</h4>
+                            <small>Fine-grained access control</small>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Performance</h4>
+                            <small>Improved memory efficiency</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Detailed Comparison</h2>
+            <table>
+                <thead>
+                    <tr><th>Aspect</th><th>Redis</th><th>Memcached</th><th>KeyDB</th><th>DragonflyDB</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Data Structures</td><td class="winner">Rich (10+ types)</td><td>Key-value only</td><td class="winner">Redis compatible</td><td class="winner">Redis compatible</td></tr>
+                    <tr><td>Pub/Sub</td><td class="winner">Built-in</td><td>None</td><td class="winner">Built-in</td><td class="winner">Built-in</td></tr>
+                    <tr><td>Geospatial</td><td class="winner">GEO commands</td><td>None</td><td class="winner">GEO commands</td><td class="winner">GEO commands</td></tr>
+                    <tr><td>Persistence</td><td class="winner">RDB + AOF</td><td>None</td><td class="winner">RDB + AOF</td><td class="winner">Yes</td></tr>
+                    <tr><td>Multi-threading</td><td>I/O threads (7+)</td><td class="winner">Multi-threaded</td><td class="winner">Multi-threaded</td><td class="winner">Multi-threaded</td></tr>
+                    <tr><td>BullMQ Support</td><td class="winner">Native</td><td>Not supported</td><td class="winner">Compatible</td><td class="winner">Compatible</td></tr>
+                    <tr><td>AWS Managed</td><td class="winner">ElastiCache</td><td class="winner">ElastiCache</td><td>Self-managed</td><td>Self-managed</td></tr>
+                    <tr><td>Community</td><td class="winner">Massive</td><td>Large</td><td>Growing</td><td>Growing</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>Alternative Options Considered</h2>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">Memcached</span>
+                    <span class="alternative-tag">Simple Cache</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">High-performance, distributed memory caching system.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Very fast and simple</li>
+                            <li>Multi-threaded by default</li>
+                            <li>Predictable performance</li>
+                            <li>Lower memory overhead</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>No pub/sub (need for Socket.io)</li>
+                            <li>No geospatial commands</li>
+                            <li>No persistence</li>
+                            <li>BullMQ requires Redis</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">KeyDB</span>
+                    <span class="alternative-tag">Redis Fork</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Multi-threaded Redis fork with improved performance.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Redis compatible API</li>
+                            <li>Multi-threaded (faster)</li>
+                            <li>Active replication</li>
+                            <li>FLASH storage support</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>No AWS managed offering</li>
+                            <li>Smaller community</li>
+                            <li>Self-managed operations</li>
+                            <li>Less documentation</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; padding: 0.75rem; background: var(--bg); border-radius: 8px; font-size: 0.9rem;">
+                    <strong style="color: var(--warning);">Future consideration:</strong> KeyDB could be used if Redis becomes a performance bottleneck and we need multi-threading.
+                </p>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">DragonflyDB</span>
+                    <span class="alternative-tag">Modern Alternative</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Modern in-memory datastore claiming 25x Redis performance.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Redis compatible</li>
+                            <li>Much faster throughput</li>
+                            <li>Better memory efficiency</li>
+                            <li>Multi-threaded</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>Newer, less battle-tested</li>
+                            <li>No managed AWS offering</li>
+                            <li>Smaller ecosystem</li>
+                            <li>Risk for production use</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">Valkey</span>
+                    <span class="alternative-tag">Linux Foundation Fork</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Community fork of Redis after license change.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>True open source (BSD)</li>
+                            <li>Redis API compatible</li>
+                            <li>Linux Foundation backed</li>
+                            <li>Community-driven development</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>Very new (2024)</li>
+                            <li>Limited AWS support currently</li>
+                            <li>Ecosystem still forming</li>
+                            <li>Risk for production use</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="bottom-line">
+            <h3>Bottom Line</h3>
+            <p>For TipsyDrive's caching needs - <strong>session storage, Socket.io adapter, rate limiting, and job queues</strong> - Redis 7 provides:</p>
+            <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                <li>Sub-millisecond latency for real-time operations</li>
+                <li>Native pub/sub for Socket.io Redis adapter</li>
+                <li>GEO commands for driver location caching</li>
+                <li>Required backend for BullMQ job processing</li>
+                <li>Managed AWS ElastiCache for zero-ops</li>
+            </ul>
+        </div>
+
+        <footer style="text-align: center; padding: 3rem 0; border-top: 1px solid var(--border); margin-top: 3rem; color: var(--text-muted);">
+            <a href="architecture-and-plan.html" style="color: var(--primary); text-decoration: none;">&larr; Back to Architecture & Plan</a>
+        </footer>
+    </div>
+</body>
+</html>

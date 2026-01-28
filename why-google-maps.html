@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Google Maps Platform? - TipsyDrive Technology Choice</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #059669;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --bg: #ffffff;
+            --bg-card: #f8fafc;
+            --bg-card-hover: #f1f5f9;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-muted); text-decoration: none; margin-bottom: 2rem; transition: color 0.2s; }
+        .back-link:hover { color: var(--primary); }
+        header { text-align: center; padding: 2rem 0 3rem; border-bottom: 1px solid var(--border); margin-bottom: 3rem; }
+        header h1 { font-size: 2.5rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.5rem; }
+        header p { color: var(--text-muted); font-size: 1.1rem; }
+        .selected-badge { display: inline-block; padding: 0.5rem 1rem; background: var(--secondary); border-radius: 9999px; font-weight: 600; margin-top: 1rem; }
+        section { margin-bottom: 3rem; }
+        h2 { font-size: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary); display: inline-block; }
+        h3 { font-size: 1.25rem; margin: 1.5rem 0 1rem; color: var(--secondary); }
+        .card { background: var(--bg-card); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; border: 1px solid var(--border); transition: transform 0.2s, box-shadow 0.2s; }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+        .grid { display: grid; gap: 1.5rem; }
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: var(--bg-card); color: var(--primary); font-weight: 600; }
+        tr:hover { background: var(--bg-card-hover); }
+        .winner { color: var(--secondary); font-weight: 500; }
+        .alternative { background: var(--bg-card); border-radius: 12px; padding: 1.5rem; border: 1px solid var(--border); margin-bottom: 1rem; }
+        .alternative-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+        .alternative-name { font-size: 1.25rem; font-weight: 600; color: var(--warning); }
+        .alternative-tag { padding: 0.25rem 0.75rem; background: var(--bg-card-hover); border-radius: 9999px; font-size: 0.75rem; color: var(--text-muted); }
+        .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+        .pros h4 { color: var(--secondary); }
+        .cons h4 { color: var(--danger); }
+        .pros ul, .cons ul { list-style: none; margin-top: 0.5rem; }
+        .pros li::before { content: '+ '; color: var(--secondary); font-weight: bold; }
+        .cons li::before { content: '- '; color: var(--danger); font-weight: bold; }
+        .bottom-line { background: var(--bg-card); border-radius: 12px; padding: 1.5rem; border-left: 4px solid var(--secondary); margin-top: 2rem; }
+        .bottom-line h3 { color: var(--secondary); margin-top: 0; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem; }
+        .feature-item { padding: 1rem; background: var(--bg); border-radius: 8px; border-left: 3px solid var(--primary); }
+        .feature-item h4 { color: var(--primary); margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .feature-item small { color: var(--text-muted); }
+        .pricing { background: var(--bg); padding: 1rem; border-radius: 8px; margin-top: 1rem; }
+        .pricing h4 { color: var(--warning); margin-bottom: 0.5rem; }
+        @media (max-width: 768px) { .container { padding: 1rem; } header h1 { font-size: 1.75rem; } .pros-cons { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="architecture-and-plan.html" class="back-link"><span>&larr;</span> Back to Architecture</a>
+
+        <header>
+            <h1>Why Google Maps Platform?</h1>
+            <p>Technology choice justification for TipsyDrive mapping services</p>
+            <div class="selected-badge">Current Selection: Google Maps Platform</div>
+        </header>
+
+        <section>
+            <h2>TipsyDrive Maps Requirements</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h4>Map Display</h4>
+                    <small>Interactive maps in customer and driver apps</small>
+                </div>
+                <div class="feature-item">
+                    <h4>Geocoding</h4>
+                    <small>Convert addresses to coordinates and vice versa</small>
+                </div>
+                <div class="feature-item">
+                    <h4>Place Autocomplete</h4>
+                    <small>Address suggestions while typing pickup/drop</small>
+                </div>
+                <div class="feature-item">
+                    <h4>Directions</h4>
+                    <small>Route between pickup and drop with ETA</small>
+                </div>
+                <div class="feature-item">
+                    <h4>Distance Matrix</h4>
+                    <small>Calculate fare based on distance and duration</small>
+                </div>
+                <div class="feature-item">
+                    <h4>Real-time Traffic</h4>
+                    <small>Accurate ETAs with live traffic data</small>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Why We Chose Google Maps</h2>
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>Key Advantages</h3>
+                    <table>
+                        <tr><th>Factor</th><th>Benefit</th></tr>
+                        <tr><td>India Coverage</td><td>Best map data for Indian cities, including tier-2/3</td></tr>
+                        <tr><td>Place Data</td><td>Most comprehensive POI database in India</td></tr>
+                        <tr><td>Traffic Data</td><td>Best real-time traffic for accurate ETAs</td></tr>
+                        <tr><td>React Native</td><td>react-native-maps with Google provider</td></tr>
+                        <tr><td>Reliability</td><td>99.9% uptime, global infrastructure</td></tr>
+                        <tr><td>Documentation</td><td>Extensive docs and examples</td></tr>
+                    </table>
+                </div>
+                <div class="card">
+                    <h3>APIs We Use</h3>
+                    <div class="feature-grid">
+                        <div class="feature-item">
+                            <h4>Maps SDK</h4>
+                            <small>Map display in mobile apps</small>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Places API</h4>
+                            <small>Autocomplete + place details</small>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Directions API</h4>
+                            <small>Route polylines + turn-by-turn</small>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Distance Matrix</h4>
+                            <small>Fare calculation backend</small>
+                        </div>
+                    </div>
+                    <div class="pricing">
+                        <h4>Estimated Costs</h4>
+                        <p>$200/month free credit, then ~$7/1000 requests for key APIs. Uber/Ola level scale would need volume discounts.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Detailed Comparison</h2>
+            <table>
+                <thead>
+                    <tr><th>Aspect</th><th>Google Maps</th><th>Mapbox</th><th>HERE</th><th>OpenStreetMap</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>India Map Quality</td><td class="winner">Excellent</td><td>Good</td><td>Good</td><td>Variable</td></tr>
+                    <tr><td>Place Data (India)</td><td class="winner">Best</td><td>Limited</td><td>Good</td><td>Community-driven</td></tr>
+                    <tr><td>Traffic Data</td><td class="winner">Real-time, best</td><td>Good</td><td class="winner">Very good</td><td>Limited</td></tr>
+                    <tr><td>Autocomplete</td><td class="winner">Excellent</td><td>Good</td><td>Good</td><td>Nominatim</td></tr>
+                    <tr><td>React Native</td><td class="winner">react-native-maps</td><td>Official SDK</td><td>Limited</td><td>Via providers</td></tr>
+                    <tr><td>Pricing</td><td>Pay-per-use</td><td class="winner">Generous free tier</td><td>Pay-per-use</td><td class="winner">Free</td></tr>
+                    <tr><td>Customization</td><td>Limited styling</td><td class="winner">Full control</td><td>Limited</td><td class="winner">Full control</td></tr>
+                    <tr><td>Offline Maps</td><td>Limited</td><td class="winner">Good</td><td>Good</td><td class="winner">Full support</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>Alternative Options Considered</h2>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">Mapbox</span>
+                    <span class="alternative-tag">Developer Favorite</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Customizable maps platform loved by developers.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Beautiful customizable styles</li>
+                            <li>Generous free tier</li>
+                            <li>Great developer experience</li>
+                            <li>Good React Native SDK</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>India place data not as comprehensive</li>
+                            <li>Autocomplete less accurate for India</li>
+                            <li>Fewer POIs in tier-2/3 cities</li>
+                            <li>Less familiar to Indian users</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; padding: 0.75rem; background: var(--bg); border-radius: 8px; font-size: 0.9rem;">
+                    <strong style="color: var(--warning);">Future consideration:</strong> Mapbox could be used for admin dashboard maps where place search is less critical.
+                </p>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">HERE Maps</span>
+                    <span class="alternative-tag">Enterprise Grade</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Enterprise mapping platform with strong automotive focus.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Very good traffic data</li>
+                            <li>Strong routing engine</li>
+                            <li>Fleet management features</li>
+                            <li>Enterprise support</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>React Native support limited</li>
+                            <li>India place data less complete</li>
+                            <li>Higher enterprise pricing</li>
+                            <li>Less developer-friendly</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">OpenStreetMap + Nominatim</span>
+                    <span class="alternative-tag">Open Source</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Free, open-source mapping data with community contributions.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Completely free</li>
+                            <li>No vendor lock-in</li>
+                            <li>Full data control</li>
+                            <li>Self-hostable</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>Inconsistent India data quality</li>
+                            <li>No real-time traffic</li>
+                            <li>Geocoding less accurate</li>
+                            <li>Infrastructure overhead</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">Ola Maps</span>
+                    <span class="alternative-tag">India Native</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Ola's in-house mapping solution for India.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Built for India specifically</li>
+                            <li>Good local data</li>
+                            <li>Competitive pricing</li>
+                            <li>Indian company</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>Limited API availability</li>
+                            <li>Less documentation</li>
+                            <li>Smaller ecosystem</li>
+                            <li>Competitor dependency risk</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="bottom-line">
+            <h3>Bottom Line</h3>
+            <p>For TipsyDrive's mapping needs - <strong>Indian city coverage, accurate places, and real-time traffic</strong> - Google Maps Platform provides:</p>
+            <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                <li>Best map coverage for Indian cities including tier-2/3</li>
+                <li>Most comprehensive place database for autocomplete</li>
+                <li>Accurate real-time traffic for reliable ETAs</li>
+                <li>Seamless React Native integration via react-native-maps</li>
+                <li>Familiar experience for Indian users (most used maps app)</li>
+            </ul>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 1rem;">
+                <strong>Cost optimization:</strong> We cache geocoding results and use Distance Matrix only for fare calculation (not display). This significantly reduces API costs.
+            </p>
+        </div>
+
+        <footer style="text-align: center; padding: 3rem 0; border-top: 1px solid var(--border); margin-top: 3rem; color: var(--text-muted);">
+            <a href="architecture-and-plan.html" style="color: var(--primary); text-decoration: none;">&larr; Back to Architecture & Plan</a>
+        </footer>
+    </div>
+</body>
+</html>

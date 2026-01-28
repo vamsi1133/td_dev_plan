@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why React Native + Expo? - TipsyDrive Technology Choice</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #059669;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --bg: #ffffff;
+            --bg-card: #f8fafc;
+            --bg-card-hover: #f1f5f9;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: var(--primary); }
+
+        header {
+            text-align: center;
+            padding: 2rem 0 3rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        header p { color: var(--text-muted); font-size: 1.1rem; }
+
+        .selected-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--secondary);
+            border-radius: 9999px;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        section { margin-bottom: 3rem; }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+            display: inline-block;
+        }
+
+        h3 { font-size: 1.25rem; margin: 1.5rem 0 1rem; color: var(--secondary); }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+
+        .grid { display: grid; gap: 1.5rem; }
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: var(--bg-card); color: var(--primary); font-weight: 600; }
+        tr:hover { background: var(--bg-card-hover); }
+        .winner { color: var(--secondary); font-weight: 500; }
+
+        .alternative {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            margin-bottom: 1rem;
+        }
+
+        .alternative-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+        .alternative-name { font-size: 1.25rem; font-weight: 600; color: var(--warning); }
+        .alternative-tag {
+            padding: 0.25rem 0.75rem;
+            background: var(--bg-card-hover);
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+        .pros h4 { color: var(--secondary); }
+        .cons h4 { color: var(--danger); }
+        .pros ul, .cons ul { list-style: none; margin-top: 0.5rem; }
+        .pros li::before { content: '+ '; color: var(--secondary); font-weight: bold; }
+        .cons li::before { content: '- '; color: var(--danger); font-weight: bold; }
+
+        .bottom-line {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--secondary);
+            margin-top: 2rem;
+        }
+        .bottom-line h3 { color: var(--secondary); margin-top: 0; }
+
+        .fit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem; }
+        .fit-item { padding: 1rem; background: var(--bg); border-radius: 8px; }
+        .fit-item h4 { color: var(--primary); margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .fit-item small { color: var(--text-muted); }
+
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            header h1 { font-size: 1.75rem; }
+            .pros-cons { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="architecture-and-plan.html" class="back-link">
+            <span>&larr;</span> Back to Architecture
+        </a>
+
+        <header>
+            <h1>Why React Native + Expo?</h1>
+            <p>Technology choice justification for TipsyDrive mobile apps</p>
+            <div class="selected-badge">Current Selection: React Native 0.73+ (Expo)</div>
+        </header>
+
+        <!-- Why React Native Section -->
+        <section>
+            <h2>Why We Chose React Native + Expo</h2>
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>Key Advantages</h3>
+                    <table>
+                        <tr><th>Factor</th><th>Benefit</th></tr>
+                        <tr><td>Code Sharing</td><td>~90% code shared between iOS and Android</td></tr>
+                        <tr><td>TypeScript Stack</td><td>Same language as backend (NestJS) and admin dashboard</td></tr>
+                        <tr><td>Expo Workflow</td><td>OTA updates, easy builds, no Xcode/Android Studio needed initially</td></tr>
+                        <tr><td>Developer Experience</td><td>Hot reload, extensive debugging tools, large community</td></tr>
+                        <tr><td>Native Modules</td><td>Maps, location, camera, push notifications all supported</td></tr>
+                        <tr><td>Hiring Pool</td><td>Large React developer community in India can transition easily</td></tr>
+                    </table>
+                </div>
+                <div class="card">
+                    <h3>TipsyDrive-Specific Fit</h3>
+                    <div class="fit-grid">
+                        <div class="fit-item">
+                            <h4>Maps Integration</h4>
+                            <small>react-native-maps works seamlessly with Google Maps for real-time tracking</small>
+                        </div>
+                        <div class="fit-item">
+                            <h4>Location Services</h4>
+                            <small>expo-location provides background GPS tracking for drivers</small>
+                        </div>
+                        <div class="fit-item">
+                            <h4>Push Notifications</h4>
+                            <small>expo-notifications + FCM for ride alerts</small>
+                        </div>
+                        <div class="fit-item">
+                            <h4>Real-time Updates</h4>
+                            <small>Socket.io-client works natively for live tracking</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Table -->
+        <section>
+            <h2>Detailed Comparison</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>React Native + Expo</th>
+                        <th>Flutter</th>
+                        <th>Native (Swift/Kotlin)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Code Sharing</td>
+                        <td class="winner">~90% iOS/Android + shares with web</td>
+                        <td>~95% iOS/Android only</td>
+                        <td>0% (separate codebases)</td>
+                    </tr>
+                    <tr>
+                        <td>Language</td>
+                        <td class="winner">TypeScript (same as backend)</td>
+                        <td>Dart (new language to learn)</td>
+                        <td>Swift + Kotlin (two languages)</td>
+                    </tr>
+                    <tr>
+                        <td>OTA Updates</td>
+                        <td class="winner">Yes (Expo Updates / CodePush)</td>
+                        <td>Limited (Shorebird)</td>
+                        <td>No (App Store only)</td>
+                    </tr>
+                    <tr>
+                        <td>Build Complexity</td>
+                        <td class="winner">Expo handles builds (EAS)</td>
+                        <td>Moderate</td>
+                        <td>Complex (Xcode + Android Studio)</td>
+                    </tr>
+                    <tr>
+                        <td>Performance</td>
+                        <td>Good (New Architecture)</td>
+                        <td class="winner">Excellent (compiled)</td>
+                        <td class="winner">Best (native)</td>
+                    </tr>
+                    <tr>
+                        <td>UI Consistency</td>
+                        <td>Platform-adaptive</td>
+                        <td class="winner">Pixel-perfect cross-platform</td>
+                        <td>Platform-native</td>
+                    </tr>
+                    <tr>
+                        <td>Ecosystem/Libraries</td>
+                        <td class="winner">Huge (NPM + React ecosystem)</td>
+                        <td>Growing (pub.dev)</td>
+                        <td>Platform-specific</td>
+                    </tr>
+                    <tr>
+                        <td>Developer Availability</td>
+                        <td class="winner">High (React devs)</td>
+                        <td>Moderate</td>
+                        <td>Lower (specialized)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Alternatives Section -->
+        <section>
+            <h2>Alternative Options Considered</h2>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">Flutter</span>
+                    <span class="alternative-tag">Google's Cross-Platform</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Google's UI toolkit for building natively compiled applications with a single codebase.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Excellent performance (AOT compiled)</li>
+                            <li>Beautiful, consistent UI (Material/Cupertino)</li>
+                            <li>Strong typing with Dart</li>
+                            <li>Great for complex animations</li>
+                            <li>Single codebase for mobile, web, desktop</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>Dart is a new language (team knows JS/TS)</li>
+                            <li>No code sharing with NestJS backend</li>
+                            <li>Larger app size (~10-15MB overhead)</li>
+                            <li>Fewer developers in India job market</li>
+                            <li>Different ecosystem from our web stack</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; padding: 0.75rem; background: var(--bg); border-radius: 8px; font-size: 0.9rem;">
+                    <strong style="color: var(--warning);">When to use:</strong> If starting fresh with no existing JS/TS codebase, need complex custom UI/animations, or building for desktop as well.
+                </p>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">Native iOS + Android</span>
+                    <span class="alternative-tag">Platform-Specific</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Separate native apps using Swift/SwiftUI for iOS and Kotlin/Jetpack Compose for Android.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Best possible performance</li>
+                            <li>Full access to latest platform APIs</li>
+                            <li>Platform-native UX</li>
+                            <li>Smaller app size</li>
+                            <li>No framework abstraction overhead</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>2x development effort (two codebases)</li>
+                            <li>Need specialists in both Swift and Kotlin</li>
+                            <li>Features must be implemented twice</li>
+                            <li>Bug fixes need dual deployment</li>
+                            <li>Higher long-term maintenance cost</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; padding: 0.75rem; background: var(--bg); border-radius: 8px; font-size: 0.9rem;">
+                    <strong style="color: var(--warning);">When to use:</strong> Apps requiring cutting-edge platform features, games, AR/VR apps, or when budget allows for two dedicated teams.
+                </p>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">Ionic / Capacitor</span>
+                    <span class="alternative-tag">Web-Based Hybrid</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Web technologies (HTML/CSS/JS) wrapped in a native container with native API access.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Maximum code sharing (same as PWA)</li>
+                            <li>Web developers can build mobile apps</li>
+                            <li>Faster initial development</li>
+                            <li>Single codebase for web and mobile</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>Performance limitations (WebView)</li>
+                            <li>Not truly native feel</li>
+                            <li>Background location less reliable</li>
+                            <li>Complex gestures harder to implement</li>
+                            <li>Map performance inferior to native</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; padding: 0.75rem; background: var(--bg); border-radius: 8px; font-size: 0.9rem;">
+                    <strong style="color: var(--warning);">When to use:</strong> Content-heavy apps, internal enterprise apps, or when web-first with mobile as secondary.
+                </p>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">React Native (Bare Workflow)</span>
+                    <span class="alternative-tag">Without Expo</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">React Native without Expo's managed workflow, giving full control over native code.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Full control over native modules</li>
+                            <li>Any native library can be used</li>
+                            <li>Smaller bundle (no Expo overhead)</li>
+                            <li>More flexibility for custom native code</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>Complex build setup (Xcode/Android Studio)</li>
+                            <li>No OTA updates out of the box</li>
+                            <li>Native module linking is manual</li>
+                            <li>Slower development iteration</li>
+                            <li>Need iOS/Android build expertise</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; padding: 0.75rem; background: var(--bg); border-radius: 8px; font-size: 0.9rem;">
+                    <strong style="color: var(--warning);">When to use:</strong> If you need native modules not supported by Expo, or have existing native code to integrate. Can always "eject" from Expo later if needed.
+                </p>
+            </div>
+        </section>
+
+        <!-- Bottom Line -->
+        <div class="bottom-line">
+            <h3>Bottom Line</h3>
+            <p>For TipsyDrive's mobile apps - requiring <strong>real-time GPS tracking, maps, push notifications, and rapid MVP development</strong> - React Native + Expo provides:</p>
+            <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                <li>Same TypeScript codebase as backend and admin dashboard</li>
+                <li>~90% code sharing between iOS and Android apps</li>
+                <li>OTA updates for quick bug fixes without App Store review</li>
+                <li>All required native features (maps, location, notifications) work well</li>
+                <li>Large hiring pool of React developers in India</li>
+            </ul>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 1rem;">
+                <strong>Future consideration:</strong> If we need custom native modules or face performance issues, we can "eject" to bare React Native workflow or add native modules via Expo's config plugins.
+            </p>
+        </div>
+
+        <footer style="text-align: center; padding: 3rem 0; border-top: 1px solid var(--border); margin-top: 3rem; color: var(--text-muted);">
+            <a href="architecture-and-plan.html" style="color: var(--primary); text-decoration: none;">&larr; Back to Architecture & Plan</a>
+        </footer>
+    </div>
+</body>
+</html>

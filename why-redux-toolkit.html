@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Redux Toolkit? - TipsyDrive Technology Choice</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #059669;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --bg: #ffffff;
+            --bg-card: #f8fafc;
+            --bg-card-hover: #f1f5f9;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: var(--primary); }
+
+        header {
+            text-align: center;
+            padding: 2rem 0 3rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        header p { color: var(--text-muted); font-size: 1.1rem; }
+
+        .selected-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--secondary);
+            border-radius: 9999px;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        section { margin-bottom: 3rem; }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+            display: inline-block;
+        }
+
+        h3 { font-size: 1.25rem; margin: 1.5rem 0 1rem; color: var(--secondary); }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+
+        .grid { display: grid; gap: 1.5rem; }
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: var(--bg-card); color: var(--primary); font-weight: 600; }
+        tr:hover { background: var(--bg-card-hover); }
+        .winner { color: var(--secondary); font-weight: 500; }
+
+        .alternative {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            margin-bottom: 1rem;
+        }
+
+        .alternative-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+        .alternative-name { font-size: 1.25rem; font-weight: 600; color: var(--warning); }
+        .alternative-tag {
+            padding: 0.25rem 0.75rem;
+            background: var(--bg-card-hover);
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+        .pros h4 { color: var(--secondary); }
+        .cons h4 { color: var(--danger); }
+        .pros ul, .cons ul { list-style: none; margin-top: 0.5rem; }
+        .pros li::before { content: '+ '; color: var(--secondary); font-weight: bold; }
+        .cons li::before { content: '- '; color: var(--danger); font-weight: bold; }
+
+        .bottom-line {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--secondary);
+            margin-top: 2rem;
+        }
+        .bottom-line h3 { color: var(--secondary); margin-top: 0; }
+
+        .state-types { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem; }
+        .state-item { padding: 1rem; background: var(--bg); border-radius: 8px; border-left: 3px solid var(--primary); }
+        .state-item h4 { color: var(--primary); margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .state-item small { color: var(--text-muted); }
+
+        pre {
+            background: var(--bg);
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 1rem 0;
+        }
+
+        code {
+            background: var(--bg);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            header h1 { font-size: 1.75rem; }
+            .pros-cons { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="architecture-and-plan.html" class="back-link">
+            <span>&larr;</span> Back to Architecture
+        </a>
+
+        <header>
+            <h1>Why Redux Toolkit?</h1>
+            <p>Technology choice justification for TipsyDrive state management</p>
+            <div class="selected-badge">Current Selection: Redux Toolkit</div>
+        </header>
+
+        <!-- What Redux Toolkit Manages -->
+        <section>
+            <h2>What State Redux Toolkit Manages</h2>
+            <div class="state-types">
+                <div class="state-item">
+                    <h4>Auth State</h4>
+                    <small>User session, tokens, profile data persisted across app</small>
+                </div>
+                <div class="state-item">
+                    <h4>Active Ride</h4>
+                    <small>Current booking status, driver info, fare details</small>
+                </div>
+                <div class="state-item">
+                    <h4>Driver Status</h4>
+                    <small>Online/offline, current location, earnings today</small>
+                </div>
+                <div class="state-item">
+                    <h4>UI State</h4>
+                    <small>Modals, loading states, navigation history</small>
+                </div>
+                <div class="state-item">
+                    <h4>Notifications</h4>
+                    <small>Push notification queue, in-app alerts</small>
+                </div>
+                <div class="state-item">
+                    <h4>Settings</h4>
+                    <small>User preferences, app configuration</small>
+                </div>
+            </div>
+            <p style="color: var(--text-muted); margin-top: 1rem; font-size: 0.9rem;">
+                <strong>Note:</strong> Server data (rides list, driver list) is managed by TanStack Query, not Redux. Redux handles client-side state only.
+            </p>
+        </section>
+
+        <!-- Why Redux Toolkit Section -->
+        <section>
+            <h2>Why We Chose Redux Toolkit</h2>
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>Key Advantages</h3>
+                    <table>
+                        <tr><th>Factor</th><th>Benefit</th></tr>
+                        <tr><td>Predictable State</td><td>Single source of truth, easy debugging with DevTools</td></tr>
+                        <tr><td>Less Boilerplate</td><td>createSlice reduces Redux code by ~50%</td></tr>
+                        <tr><td>Immutability</td><td>Immer built-in - write mutable code, get immutable updates</td></tr>
+                        <tr><td>TypeScript</td><td>Excellent type inference out of the box</td></tr>
+                        <tr><td>Cross-Platform</td><td>Same Redux code works in React Native and React web</td></tr>
+                        <tr><td>Persistence</td><td>redux-persist for offline support and session restoration</td></tr>
+                    </table>
+                </div>
+                <div class="card">
+                    <h3>Code Example</h3>
+                    <pre>// authSlice.ts
+const authSlice = createSlice({
+  name: 'auth',
+  initialState: { user: null, token: null },
+  reducers: {
+    setCredentials: (state, action) => {
+      state.user = action.payload.user;
+      state.token = action.payload.token;
+    },
+    logout: (state) => {
+      state.user = null;
+      state.token = null;
+    },
+  },
+});
+
+// Usage in component
+const user = useSelector(state => state.auth.user);
+dispatch(setCredentials({ user, token }));</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Table -->
+        <section>
+            <h2>Detailed Comparison</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Redux Toolkit</th>
+                        <th>Zustand</th>
+                        <th>MobX</th>
+                        <th>Context API</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Boilerplate</td>
+                        <td>Low (with RTK)</td>
+                        <td class="winner">Minimal</td>
+                        <td>Low</td>
+                        <td class="winner">Minimal</td>
+                    </tr>
+                    <tr>
+                        <td>DevTools</td>
+                        <td class="winner">Excellent (time-travel)</td>
+                        <td>Good</td>
+                        <td>Good</td>
+                        <td>Basic</td>
+                    </tr>
+                    <tr>
+                        <td>TypeScript</td>
+                        <td class="winner">Excellent</td>
+                        <td class="winner">Excellent</td>
+                        <td>Good</td>
+                        <td>Manual</td>
+                    </tr>
+                    <tr>
+                        <td>Learning Curve</td>
+                        <td>Medium</td>
+                        <td class="winner">Low</td>
+                        <td>Medium</td>
+                        <td class="winner">Low</td>
+                    </tr>
+                    <tr>
+                        <td>Middleware</td>
+                        <td class="winner">Built-in (thunk, listener)</td>
+                        <td>Limited</td>
+                        <td>Reactions</td>
+                        <td>None</td>
+                    </tr>
+                    <tr>
+                        <td>Persistence</td>
+                        <td class="winner">redux-persist (mature)</td>
+                        <td>zustand/persist</td>
+                        <td>Manual</td>
+                        <td>Manual</td>
+                    </tr>
+                    <tr>
+                        <td>React Native</td>
+                        <td class="winner">First-class support</td>
+                        <td class="winner">Works well</td>
+                        <td>Works</td>
+                        <td>Built-in</td>
+                    </tr>
+                    <tr>
+                        <td>Community/Jobs</td>
+                        <td class="winner">Largest</td>
+                        <td>Growing</td>
+                        <td>Moderate</td>
+                        <td>N/A (React built-in)</td>
+                    </tr>
+                    <tr>
+                        <td>Complex State</td>
+                        <td class="winner">Excellent</td>
+                        <td>Good</td>
+                        <td class="winner">Excellent</td>
+                        <td>Limited</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Alternatives Section -->
+        <section>
+            <h2>Alternative Options Considered</h2>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">Zustand</span>
+                    <span class="alternative-tag">Lightweight Store</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Minimal, unopinionated state management with hooks-first API.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Extremely simple API</li>
+                            <li>Tiny bundle size (~1KB)</li>
+                            <li>No boilerplate at all</li>
+                            <li>Works great with TypeScript</li>
+                            <li>No providers needed</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>Less structured for larger teams</li>
+                            <li>DevTools not as mature</li>
+                            <li>Fewer middleware options</li>
+                            <li>Smaller community than Redux</li>
+                            <li>Less documentation/tutorials</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; padding: 0.75rem; background: var(--bg); border-radius: 8px; font-size: 0.9rem;">
+                    <strong style="color: var(--warning);">When to use:</strong> Small to medium apps, when Redux feels like overkill, or when bundle size is critical.
+                </p>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">MobX</span>
+                    <span class="alternative-tag">Reactive State</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Reactive state management using observables and automatic tracking.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Automatic re-renders (no selectors)</li>
+                            <li>Mutable syntax feels natural</li>
+                            <li>Great for complex derived state</li>
+                            <li>Less code than Redux</li>
+                            <li>Excellent for real-time updates</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>Magic can be hard to debug</li>
+                            <li>Less predictable than Redux</li>
+                            <li>Smaller job market</li>
+                            <li>Team more familiar with Redux</li>
+                            <li>Harder to onboard new developers</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; padding: 0.75rem; background: var(--bg); border-radius: 8px; font-size: 0.9rem;">
+                    <strong style="color: var(--warning);">When to use:</strong> Complex reactive UIs, real-time dashboards, or when team prefers OOP style.
+                </p>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">React Context + useReducer</span>
+                    <span class="alternative-tag">Built-in React</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">React's built-in state management using Context API with useReducer hook.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>No external dependencies</li>
+                            <li>Built into React</li>
+                            <li>Simple for small state</li>
+                            <li>Easy to understand</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>Re-renders all consumers on any change</li>
+                            <li>No DevTools for debugging</li>
+                            <li>No built-in persistence</li>
+                            <li>Boilerplate for multiple contexts</li>
+                            <li>Performance issues at scale</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; padding: 0.75rem; background: var(--bg); border-radius: 8px; font-size: 0.9rem;">
+                    <strong style="color: var(--warning);">When to use:</strong> Simple apps, theme/locale settings, or when you want zero dependencies.
+                </p>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">Jotai / Recoil</span>
+                    <span class="alternative-tag">Atomic State</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Atomic state management - each piece of state is an independent atom.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Fine-grained re-renders</li>
+                            <li>Easy code-splitting</li>
+                            <li>Great for derived state</li>
+                            <li>Suspense-friendly</li>
+                            <li>Minimal boilerplate</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>Different mental model</li>
+                            <li>Less mature ecosystem</li>
+                            <li>Harder to debug complex flows</li>
+                            <li>Recoil (Meta) has uncertain future</li>
+                            <li>Team unfamiliar with atomic pattern</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; padding: 0.75rem; background: var(--bg); border-radius: 8px; font-size: 0.9rem;">
+                    <strong style="color: var(--warning);">When to use:</strong> Apps with many independent state atoms, or when fine-grained reactivity is critical.
+                </p>
+            </div>
+        </section>
+
+        <!-- Bottom Line -->
+        <div class="bottom-line">
+            <h3>Bottom Line</h3>
+            <p>For TipsyDrive's state management - handling <strong>auth, active rides, driver status, and UI state</strong> across React Native and React web - Redux Toolkit provides:</p>
+            <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                <li>Predictable state with excellent DevTools for debugging</li>
+                <li>Same code works in React Native (mobile) and React (admin)</li>
+                <li>Built-in persistence for offline support (redux-persist)</li>
+                <li>Strong TypeScript support with minimal setup</li>
+                <li>Large community and easy hiring in India</li>
+            </ul>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 1rem;">
+                <strong>Architecture note:</strong> We use Redux Toolkit for <em>client state</em> only. Server state (API data) is managed by TanStack Query, avoiding the common Redux anti-pattern of caching server data in Redux.
+            </p>
+        </div>
+
+        <footer style="text-align: center; padding: 3rem 0; border-top: 1px solid var(--border); margin-top: 3rem; color: var(--text-muted);">
+            <a href="architecture-and-plan.html" style="color: var(--primary); text-decoration: none;">&larr; Back to Architecture & Plan</a>
+        </footer>
+    </div>
+</body>
+</html>

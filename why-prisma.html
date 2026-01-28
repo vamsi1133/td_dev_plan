@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Prisma? - TipsyDrive Technology Choice</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #059669;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --bg: #ffffff;
+            --bg-card: #f8fafc;
+            --bg-card-hover: #f1f5f9;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-muted); text-decoration: none; margin-bottom: 2rem; transition: color 0.2s; }
+        .back-link:hover { color: var(--primary); }
+        header { text-align: center; padding: 2rem 0 3rem; border-bottom: 1px solid var(--border); margin-bottom: 3rem; }
+        header h1 { font-size: 2.5rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.5rem; }
+        header p { color: var(--text-muted); font-size: 1.1rem; }
+        .selected-badge { display: inline-block; padding: 0.5rem 1rem; background: var(--secondary); border-radius: 9999px; font-weight: 600; margin-top: 1rem; }
+        section { margin-bottom: 3rem; }
+        h2 { font-size: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary); display: inline-block; }
+        h3 { font-size: 1.25rem; margin: 1.5rem 0 1rem; color: var(--secondary); }
+        .card { background: var(--bg-card); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; border: 1px solid var(--border); transition: transform 0.2s, box-shadow 0.2s; }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+        .grid { display: grid; gap: 1.5rem; }
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: var(--bg-card); color: var(--primary); font-weight: 600; }
+        tr:hover { background: var(--bg-card-hover); }
+        .winner { color: var(--secondary); font-weight: 500; }
+        .alternative { background: var(--bg-card); border-radius: 12px; padding: 1.5rem; border: 1px solid var(--border); margin-bottom: 1rem; }
+        .alternative-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+        .alternative-name { font-size: 1.25rem; font-weight: 600; color: var(--warning); }
+        .alternative-tag { padding: 0.25rem 0.75rem; background: var(--bg-card-hover); border-radius: 9999px; font-size: 0.75rem; color: var(--text-muted); }
+        .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+        .pros h4 { color: var(--secondary); }
+        .cons h4 { color: var(--danger); }
+        .pros ul, .cons ul { list-style: none; margin-top: 0.5rem; }
+        .pros li::before { content: '+ '; color: var(--secondary); font-weight: bold; }
+        .cons li::before { content: '- '; color: var(--danger); font-weight: bold; }
+        .bottom-line { background: var(--bg-card); border-radius: 12px; padding: 1.5rem; border-left: 4px solid var(--secondary); margin-top: 2rem; }
+        .bottom-line h3 { color: var(--secondary); margin-top: 0; }
+        pre { background: var(--bg); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: 'Fira Code', 'Consolas', monospace; font-size: 0.85rem; line-height: 1.5; margin: 1rem 0; }
+        @media (max-width: 768px) { .container { padding: 1rem; } header h1 { font-size: 1.75rem; } .pros-cons { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="architecture-and-plan.html" class="back-link"><span>&larr;</span> Back to Architecture</a>
+
+        <header>
+            <h1>Why Prisma?</h1>
+            <p>Technology choice justification for TipsyDrive ORM</p>
+            <div class="selected-badge">Current Selection: Prisma ORM</div>
+        </header>
+
+        <section>
+            <h2>Why We Chose Prisma</h2>
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>Key Advantages</h3>
+                    <table>
+                        <tr><th>Factor</th><th>Benefit</th></tr>
+                        <tr><td>Type Safety</td><td>Auto-generated TypeScript types from schema</td></tr>
+                        <tr><td>Schema-First</td><td>Single source of truth for database schema</td></tr>
+                        <tr><td>Migrations</td><td>Declarative migrations with prisma migrate</td></tr>
+                        <tr><td>Developer Experience</td><td>Excellent autocomplete in VS Code</td></tr>
+                        <tr><td>Query Builder</td><td>Intuitive, chainable API</td></tr>
+                        <tr><td>Prisma Studio</td><td>Built-in GUI for database browsing</td></tr>
+                    </table>
+                </div>
+                <div class="card">
+                    <h3>Code Example</h3>
+                    <pre>// schema.prisma
+model Ride {
+  id         String   @id @default(uuid())
+  customerId String
+  driverId   String?
+  status     RideStatus
+  fare       Decimal
+  customer   User     @relation(fields: [customerId])
+  driver     Driver?  @relation(fields: [driverId])
+}
+
+// Usage - fully typed!
+const ride = await prisma.ride.findUnique({
+  where: { id: rideId },
+  include: { customer: true, driver: true }
+});
+// ride.customer.name - TypeScript knows this!</pre>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Detailed Comparison</h2>
+            <table>
+                <thead>
+                    <tr><th>Aspect</th><th>Prisma</th><th>TypeORM</th><th>Drizzle</th><th>Knex.js</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Type Safety</td><td class="winner">Excellent (generated)</td><td>Good (decorators)</td><td class="winner">Excellent</td><td>Manual</td></tr>
+                    <tr><td>Schema Definition</td><td class="winner">Prisma Schema (DSL)</td><td>TypeScript decorators</td><td>TypeScript</td><td>Migrations only</td></tr>
+                    <tr><td>Learning Curve</td><td class="winner">Low</td><td>Medium</td><td>Low</td><td>Medium</td></tr>
+                    <tr><td>Raw SQL Escape</td><td>$queryRaw</td><td>query()</td><td class="winner">Native SQL support</td><td class="winner">Native</td></tr>
+                    <tr><td>Migrations</td><td class="winner">Declarative</td><td>Sync or manual</td><td>Manual</td><td>Manual</td></tr>
+                    <tr><td>Performance</td><td>Good</td><td>Good</td><td class="winner">Excellent</td><td class="winner">Excellent</td></tr>
+                    <tr><td>Relations</td><td class="winner">Intuitive include</td><td>Eager/Lazy loading</td><td>Join API</td><td>Manual joins</td></tr>
+                    <tr><td>GUI Tool</td><td class="winner">Prisma Studio</td><td>None built-in</td><td>Drizzle Studio</td><td>None</td></tr>
+                    <tr><td>PostGIS Support</td><td>Via extensions</td><td>Via packages</td><td>Via packages</td><td>Via packages</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>Alternative Options Considered</h2>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">TypeORM</span>
+                    <span class="alternative-tag">Decorator-Based ORM</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Full-featured ORM with Active Record and Data Mapper patterns.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Mature and widely used</li>
+                            <li>Works with NestJS decorators</li>
+                            <li>Multiple database support</li>
+                            <li>Active Record pattern option</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>Type safety can be incomplete</li>
+                            <li>Decorator syntax is verbose</li>
+                            <li>Schema sync can be risky</li>
+                            <li>Migration experience not as smooth</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">Drizzle ORM</span>
+                    <span class="alternative-tag">Lightweight & Fast</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">TypeScript-first ORM with SQL-like syntax and excellent performance.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Excellent performance</li>
+                            <li>SQL-like API (familiar)</li>
+                            <li>Tiny bundle size</li>
+                            <li>Great type inference</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>Newer, less mature</li>
+                            <li>Smaller community</li>
+                            <li>Less documentation</li>
+                            <li>Manual migration workflow</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; padding: 0.75rem; background: var(--bg); border-radius: 8px; font-size: 0.9rem;">
+                    <strong style="color: var(--warning);">Future consideration:</strong> Drizzle is worth revisiting as it matures - excellent for performance-critical services.
+                </p>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">Knex.js</span>
+                    <span class="alternative-tag">Query Builder</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Flexible SQL query builder (not a full ORM).</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Full SQL control</li>
+                            <li>Lightweight</li>
+                            <li>Works with any SQL</li>
+                            <li>Good for complex queries</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>No type safety by default</li>
+                            <li>No relation management</li>
+                            <li>More boilerplate</li>
+                            <li>Manual type definitions</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alternative">
+                <div class="alternative-header">
+                    <span class="alternative-name">Raw SQL (pg)</span>
+                    <span class="alternative-tag">No ORM</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Direct PostgreSQL driver without abstraction layer.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Maximum performance</li>
+                            <li>Full SQL control</li>
+                            <li>No ORM overhead</li>
+                            <li>PostGIS native support</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons for TipsyDrive</h4>
+                        <ul>
+                            <li>No type safety</li>
+                            <li>SQL injection risks</li>
+                            <li>Lots of boilerplate</li>
+                            <li>Slower development</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="bottom-line">
+            <h3>Bottom Line</h3>
+            <p>For TipsyDrive's data layer - with <strong>complex relations (users, drivers, rides, payments)</strong> - Prisma provides:</p>
+            <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                <li>Auto-generated TypeScript types catch errors at compile time</li>
+                <li>Declarative schema is easy to understand and version control</li>
+                <li>Migrations are simple and safe with prisma migrate</li>
+                <li>Excellent DX with autocomplete and Prisma Studio</li>
+                <li>Works well with NestJS via official integration</li>
+            </ul>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 1rem;">
+                <strong>Note:</strong> For complex PostGIS queries (driver matching by radius), we use Prisma's $queryRaw with raw SQL to leverage PostGIS functions directly.
+            </p>
+        </div>
+
+        <footer style="text-align: center; padding: 3rem 0; border-top: 1px solid var(--border); margin-top: 3rem; color: var(--text-muted);">
+            <a href="architecture-and-plan.html" style="color: var(--primary); text-decoration: none;">&larr; Back to Architecture & Plan</a>
+        </footer>
+    </div>
+</body>
+</html>
