@@ -6,258 +6,357 @@
     <title>Why Node.js 20? - TipsyDrive Technology Choice</title>
     <style>
         :root {
-            --primary: #4f46e5;
-            --primary-dark: #4338ca;
-            --secondary: #059669;
+            --bg-light: #EAEFEF;
+            --gray-medium: #BFC9D1;
+            --dark: #25343F;
+            --accent: #FF9B51;
+            --accent-light: rgba(255, 155, 81, 0.1);
+            --accent-hover: #e88a42;
+            --bg: #FFFFFF;
+            --text: #25343F;
+            --text-muted: #6B7B8A;
+            --border: #E1E7EB;
+            --success: #34A853;
+            --success-light: rgba(52, 168, 83, 0.1);
+            --danger: #EA4335;
             --warning: #d97706;
-            --danger: #dc2626;
-            --bg: #ffffff;
-            --bg-card: #f8fafc;
-            --bg-card-hover: #f1f5f9;
-            --text: #1e293b;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
+            --sidebar-width: 280px;
+            --radius: 12px;
+            --radius-sm: 8px;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
-        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-muted); text-decoration: none; margin-bottom: 2rem; transition: color 0.2s; }
-        .back-link:hover { color: var(--primary); }
-        header { text-align: center; padding: 2rem 0 3rem; border-bottom: 1px solid var(--border); margin-bottom: 3rem; }
-        header h1 { font-size: 2.5rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.5rem; }
-        header p { color: var(--text-muted); font-size: 1.1rem; }
-        .selected-badge { display: inline-block; padding: 0.5rem 1rem; background: var(--secondary); border-radius: 9999px; font-weight: 600; margin-top: 1rem; }
-        section { margin-bottom: 3rem; }
-        h2 { font-size: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary); display: inline-block; }
-        h3 { font-size: 1.25rem; margin: 1.5rem 0 1rem; color: var(--secondary); }
-        .card { background: var(--bg-card); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; border: 1px solid var(--border); transition: transform 0.2s, box-shadow 0.2s; }
-        .card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg-light); color: var(--text); line-height: 1.6; }
+        .layout { display: flex; min-height: 100vh; }
+
+        /* Sidebar */
+        .sidebar { width: var(--sidebar-width); background: var(--dark); position: fixed; top: 0; left: 0; height: 100vh; overflow-y: auto; z-index: 1000; }
+        .sidebar-header { padding: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .sidebar-logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+        .sidebar-logo img { width: 40px; height: 40px; border-radius: 10px; }
+        .sidebar-logo-text { font-size: 1.15rem; font-weight: 600; color: white; }
+        .sidebar-subtitle { font-size: 0.7rem; color: rgba(255,255,255,0.5); margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .sidebar-nav { padding: 1rem 0; }
+        .nav-section { margin-bottom: 0.5rem; }
+        .nav-section-title { padding: 0.75rem 1.25rem 0.5rem; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.35); font-weight: 600; }
+        .nav-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 1.25rem; color: rgba(255,255,255,0.65); text-decoration: none; font-size: 0.85rem; transition: all 0.15s ease; border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255,255,255,0.04); color: white; }
+        .nav-item.active { background: rgba(255, 155, 81, 0.12); color: var(--accent); border-left-color: var(--accent); }
+        .nav-item-icon { width: 18px; display: flex; align-items: center; justify-content: center; opacity: 0.7; }
+
+        /* Main Content */
+        .main-content { flex: 1; margin-left: var(--sidebar-width); min-height: 100vh; }
+        .content-header { background: var(--bg); padding: 2rem 2rem; border-bottom: 1px solid var(--border); }
+        .content-header h1 { font-size: 1.75rem; font-weight: 600; letter-spacing: -0.02em; }
+        .content-header p { color: var(--text-muted); font-size: 0.95rem; margin-top: 0.25rem; }
+        .content-body { padding: 2rem; max-width: 1200px; }
+
+        /* Section */
+        .section { margin-bottom: 2rem; }
+        .section-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: var(--dark); display: flex; align-items: center; gap: 0.5rem; }
+        .section-title::before { content: ''; width: 4px; height: 20px; background: var(--accent); border-radius: 2px; }
+
+        /* Cards */
+        .card { background: var(--bg); border-radius: var(--radius); padding: 1.5rem; border: 1px solid var(--border); margin-bottom: 1rem; }
+        .card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: var(--dark); }
         .grid { display: grid; gap: 1.5rem; }
         .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+
+        /* Tables */
+        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
         th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
-        th { background: var(--bg-card); color: var(--primary); font-weight: 600; }
-        tr:hover { background: var(--bg-card-hover); }
-        .winner { color: var(--secondary); font-weight: 500; }
-        .alternative { background: var(--bg-card); border-radius: 12px; padding: 1.5rem; border: 1px solid var(--border); margin-bottom: 1rem; }
+        th { background: var(--bg-light); color: var(--dark); font-weight: 600; font-size: 0.85rem; }
+        .winner { color: var(--success); font-weight: 500; }
+
+        /* Alternative */
+        .alternative { background: var(--bg); border-radius: var(--radius); padding: 1.5rem; border: 1px solid var(--border); margin-bottom: 1rem; }
         .alternative-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
-        .alternative-name { font-size: 1.25rem; font-weight: 600; color: var(--warning); }
-        .alternative-tag { padding: 0.25rem 0.75rem; background: var(--bg-card-hover); border-radius: 9999px; font-size: 0.75rem; color: var(--text-muted); }
+        .alternative-name { font-size: 1.15rem; font-weight: 600; color: var(--warning); }
+        .alternative-tag { padding: 0.25rem 0.75rem; background: var(--bg-light); border-radius: 9999px; font-size: 0.75rem; color: var(--text-muted); }
+
         .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
-        .pros h4 { color: var(--secondary); }
+        .pros h4 { color: var(--success); }
         .cons h4 { color: var(--danger); }
         .pros ul, .cons ul { list-style: none; margin-top: 0.5rem; }
-        .pros li::before { content: '+ '; color: var(--secondary); font-weight: bold; }
+        .pros li::before { content: '+ '; color: var(--success); font-weight: bold; }
         .cons li::before { content: '- '; color: var(--danger); font-weight: bold; }
-        .bottom-line { background: var(--bg-card); border-radius: 12px; padding: 1.5rem; border-left: 4px solid var(--secondary); margin-top: 2rem; }
-        .bottom-line h3 { color: var(--secondary); margin-top: 0; }
+
+        /* Bottom Line */
+        .bottom-line { background: var(--bg); border-radius: var(--radius); padding: 1.5rem; border-left: 4px solid var(--success); margin-top: 2rem; }
+        .bottom-line h3 { color: var(--success); margin-top: 0; margin-bottom: 1rem; }
+
+        /* Feature Grid */
         .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem; }
-        .feature-item { padding: 1rem; background: var(--bg); border-radius: 8px; border-left: 3px solid var(--primary); }
-        .feature-item h4 { color: var(--primary); margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .feature-item { padding: 1rem; background: var(--bg-light); border-radius: var(--radius-sm); border-left: 3px solid var(--accent); }
+        .feature-item h4 { color: var(--accent); margin-bottom: 0.5rem; font-size: 0.95rem; }
         .feature-item small { color: var(--text-muted); }
-        @media (max-width: 768px) { .container { padding: 1rem; } header h1 { font-size: 1.75rem; } .pros-cons { grid-template-columns: 1fr; } }
+
+        /* Badge */
+        .selected-badge { display: inline-block; padding: 0.5rem 1rem; background: var(--success); color: white; border-radius: 9999px; font-weight: 600; font-size: 0.85rem; margin-top: 0.5rem; }
+
+        /* Doc Link */
+        .doc-link { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem; padding: 0.5rem 1rem; background: var(--accent); color: white; text-decoration: none; border-radius: 8px; font-size: 0.85rem; font-weight: 500; transition: background 0.2s; }
+        .doc-link:hover { background: var(--accent-hover); }
+
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); }
+            .main-content { margin-left: 0; }
+            .content-body { padding: 1rem; }
+            .pros-cons { grid-template-columns: 1fr; }
+        }
     </style>
     <script src="auth.js"></script>
 </head>
 <body>
-    <div class="container">
-        <a href="architecture-and-plan.html" class="back-link"><span>&larr;</span> Back to Architecture</a>
-
-        <header>
-            <h1>Why Node.js 20?</h1>
-            <p>Technology choice justification for TipsyDrive backend runtime</p>
-            <div class="selected-badge">Current Selection: Node.js 20 LTS</div>
-        </header>
-
-        <section>
-            <h2>Why We Chose Node.js</h2>
-            <div class="grid grid-2">
-                <div class="card">
-                    <h3>Key Advantages</h3>
-                    <table>
-                        <tr><th>Factor</th><th>Benefit</th></tr>
-                        <tr><td>Event-Driven I/O</td><td>Non-blocking, perfect for real-time apps with many connections</td></tr>
-                        <tr><td>JavaScript Everywhere</td><td>Same language as React Native frontend - shared code/types</td></tr>
-                        <tr><td>NPM Ecosystem</td><td>Largest package registry - libraries for everything</td></tr>
-                        <tr><td>Fast Startup</td><td>Seconds vs minutes for JVM-based runtimes</td></tr>
-                        <tr><td>WebSocket Native</td><td>Socket.io ecosystem is mature and battle-tested</td></tr>
-                        <tr><td>Developer Pool</td><td>Large JavaScript developer community in India</td></tr>
-                    </table>
+    <div class="layout">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="sidebar-logo">
+                    <img src="logo.png" alt="TipsyDrive">
+                    <span class="sidebar-logo-text">TipsyDrive</span>
+                </a>
+                <div class="sidebar-subtitle">Technical Documentation</div>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Overview</div>
+                    <a href="index.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>Dashboard</a>
+                    <a href="architecture-and-plan.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></span>Architecture</a>
+                    <a href="improvements.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg></span>Improvements</a>
                 </div>
-                <div class="card">
-                    <h3>Node.js 20 LTS Features</h3>
-                    <div class="feature-grid">
-                        <div class="feature-item">
-                            <h4>Stable fetch()</h4>
-                            <small>Built-in HTTP client, no need for axios/node-fetch</small>
+                <div class="nav-section">
+                    <div class="nav-section-title">Frontend</div>
+                    <a href="why-react-native.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></span>React Native</a>
+                    <a href="why-redux-toolkit.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>Redux Toolkit</a>
+                    <a href="why-tanstack-query.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12a9 9 0 11-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg></span>TanStack Query</a>
+                    <a href="why-react-admin.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></span>React Admin</a>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">Backend</div>
+                    <a href="why-nodejs.html" class="nav-item active"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></span>Node.js</a>
+                    <a href="why-nestjs.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/></svg></span>NestJS</a>
+                    <a href="why-prisma.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg></span>Prisma</a>
+                    <a href="why-socketio.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>Socket.io</a>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">Database</div>
+                    <a href="why-postgresql.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></span>PostgreSQL</a>
+                    <a href="why-redis.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></span>Redis</a>
+                    <a href="why-bullmq.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg></span>BullMQ</a>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">Services</div>
+                    <a href="why-razorpay.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span>Razorpay</a>
+                    <a href="why-google-maps.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>Google Maps</a>
+                    <a href="why-msg91.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>MSG91</a>
+                    <a href="why-firebase-fcm.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span>Firebase FCM</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <h1>Why Node.js 20?</h1>
+                <p>Technology choice justification for TipsyDrive backend runtime</p>
+                <div class="selected-badge">Current Selection: Node.js 20 LTS</div>
+                <a href="https://nodejs.org/docs/" target="_blank" class="doc-link">Official Documentation ↗</a>
+            </div>
+
+            <div class="content-body">
+                <!-- Why Node.js Section -->
+                <div class="section">
+                    <h2 class="section-title">Why We Chose Node.js</h2>
+                    <div class="grid grid-2">
+                        <div class="card">
+                            <h3>Key Advantages</h3>
+                            <table>
+                                <tr><th>Factor</th><th>Benefit</th></tr>
+                                <tr><td>Event-Driven I/O</td><td>Non-blocking, perfect for real-time apps with many connections</td></tr>
+                                <tr><td>JavaScript Everywhere</td><td>Same language as React Native frontend - shared code/types</td></tr>
+                                <tr><td>NPM Ecosystem</td><td>Largest package registry - libraries for everything</td></tr>
+                                <tr><td>Fast Startup</td><td>Seconds vs minutes for JVM-based runtimes</td></tr>
+                                <tr><td>WebSocket Native</td><td>Socket.io ecosystem is mature and battle-tested</td></tr>
+                                <tr><td>Developer Pool</td><td>Large JavaScript developer community in India</td></tr>
+                            </table>
                         </div>
-                        <div class="feature-item">
-                            <h4>Test Runner</h4>
-                            <small>Native test runner for unit tests</small>
+                        <div class="card">
+                            <h3>Node.js 20 LTS Features</h3>
+                            <div class="feature-grid">
+                                <div class="feature-item">
+                                    <h4>Stable fetch()</h4>
+                                    <small>Built-in HTTP client, no need for axios/node-fetch</small>
+                                </div>
+                                <div class="feature-item">
+                                    <h4>Test Runner</h4>
+                                    <small>Native test runner for unit tests</small>
+                                </div>
+                                <div class="feature-item">
+                                    <h4>Permission Model</h4>
+                                    <small>Experimental security restrictions</small>
+                                </div>
+                                <div class="feature-item">
+                                    <h4>V8 11.3</h4>
+                                    <small>Latest JavaScript features and performance</small>
+                                </div>
+                            </div>
                         </div>
-                        <div class="feature-item">
-                            <h4>Permission Model</h4>
-                            <small>Experimental security restrictions</small>
+                    </div>
+                </div>
+
+                <!-- Comparison Table -->
+                <div class="section">
+                    <h2 class="section-title">Detailed Comparison</h2>
+                    <div class="card">
+                        <table>
+                            <thead>
+                                <tr><th>Aspect</th><th>Node.js</th><th>Java (JVM)</th><th>Go</th><th>Python</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>I/O Performance</td><td class="winner">Excellent (event loop)</td><td>Good (threads)</td><td class="winner">Excellent (goroutines)</td><td>Good (async)</td></tr>
+                                <tr><td>CPU Performance</td><td>Moderate</td><td class="winner">Excellent</td><td class="winner">Excellent</td><td>Moderate</td></tr>
+                                <tr><td>Startup Time</td><td class="winner">Fast (seconds)</td><td>Slow (JVM warmup)</td><td class="winner">Instant</td><td>Fast</td></tr>
+                                <tr><td>Memory Usage</td><td>Moderate</td><td>High</td><td class="winner">Low</td><td>Moderate</td></tr>
+                                <tr><td>Code Sharing</td><td class="winner">Same as React Native</td><td>None</td><td>None</td><td>None</td></tr>
+                                <tr><td>Real-time Libraries</td><td class="winner">Socket.io (mature)</td><td>STOMP/SockJS</td><td>Gorilla WebSocket</td><td>Socket.io-python</td></tr>
+                                <tr><td>Type Safety</td><td>TypeScript (optional)</td><td class="winner">Java (strict)</td><td class="winner">Go (strict)</td><td>Type hints (optional)</td></tr>
+                                <tr><td>Developer Availability</td><td class="winner">Very High</td><td>High</td><td>Moderate</td><td>High</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Alternatives Section -->
+                <div class="section">
+                    <h2 class="section-title">Alternative Options Considered</h2>
+
+                    <div class="alternative">
+                        <div class="alternative-header">
+                            <span class="alternative-name">Java (JVM)</span>
+                            <span class="alternative-tag">Enterprise Standard</span>
                         </div>
-                        <div class="feature-item">
-                            <h4>V8 11.3</h4>
-                            <small>Latest JavaScript features and performance</small>
+                        <p style="color: var(--text-muted); margin-bottom: 1rem;">Mature enterprise runtime with Spring Boot ecosystem.</p>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros</h4>
+                                <ul>
+                                    <li>Excellent CPU performance</li>
+                                    <li>Strong type system</li>
+                                    <li>Enterprise battle-tested</li>
+                                    <li>Great tooling (IntelliJ)</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons for TipsyDrive</h4>
+                                <ul>
+                                    <li>No code sharing with React Native</li>
+                                    <li>Slow startup (cold start issues)</li>
+                                    <li>Higher memory consumption</li>
+                                    <li>Different language from frontend</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alternative">
+                        <div class="alternative-header">
+                            <span class="alternative-name">Go</span>
+                            <span class="alternative-tag">High Performance</span>
+                        </div>
+                        <p style="color: var(--text-muted); margin-bottom: 1rem;">Compiled language with excellent concurrency via goroutines.</p>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros</h4>
+                                <ul>
+                                    <li>Exceptional performance</li>
+                                    <li>Low memory footprint</li>
+                                    <li>Single binary deployment</li>
+                                    <li>Built-in concurrency</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons for TipsyDrive</h4>
+                                <ul>
+                                    <li>No code sharing with frontend</li>
+                                    <li>Smaller ecosystem than Node.js</li>
+                                    <li>Learning curve for JS devs</li>
+                                    <li>Less rapid prototyping</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alternative">
+                        <div class="alternative-header">
+                            <span class="alternative-name">Python</span>
+                            <span class="alternative-tag">ML/AI Ready</span>
+                        </div>
+                        <p style="color: var(--text-muted); margin-bottom: 1rem;">Versatile language with excellent ML libraries.</p>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros</h4>
+                                <ul>
+                                    <li>Great for ML integration</li>
+                                    <li>Clean syntax</li>
+                                    <li>FastAPI is excellent</li>
+                                    <li>Good async support</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons for TipsyDrive</h4>
+                                <ul>
+                                    <li>No code sharing with frontend</li>
+                                    <li>GIL limits concurrency</li>
+                                    <li>Smaller real-time ecosystem</li>
+                                    <li>Type system less mature</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alternative">
+                        <div class="alternative-header">
+                            <span class="alternative-name">Deno / Bun</span>
+                            <span class="alternative-tag">Modern JS Runtimes</span>
+                        </div>
+                        <p style="color: var(--text-muted); margin-bottom: 1rem;">Newer JavaScript runtimes with modern features.</p>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros</h4>
+                                <ul>
+                                    <li>TypeScript native (Deno)</li>
+                                    <li>Faster startup (Bun)</li>
+                                    <li>Better security model</li>
+                                    <li>Modern APIs</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons for TipsyDrive</h4>
+                                <ul>
+                                    <li>Less mature ecosystem</li>
+                                    <li>NPM compatibility issues</li>
+                                    <li>Smaller community</li>
+                                    <li>Risk for production apps</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <section>
-            <h2>Detailed Comparison</h2>
-            <table>
-                <thead>
-                    <tr><th>Aspect</th><th>Node.js</th><th>Java (JVM)</th><th>Go</th><th>Python</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>I/O Performance</td><td class="winner">Excellent (event loop)</td><td>Good (threads)</td><td class="winner">Excellent (goroutines)</td><td>Good (async)</td></tr>
-                    <tr><td>CPU Performance</td><td>Moderate</td><td class="winner">Excellent</td><td class="winner">Excellent</td><td>Moderate</td></tr>
-                    <tr><td>Startup Time</td><td class="winner">Fast (seconds)</td><td>Slow (JVM warmup)</td><td class="winner">Instant</td><td>Fast</td></tr>
-                    <tr><td>Memory Usage</td><td>Moderate</td><td>High</td><td class="winner">Low</td><td>Moderate</td></tr>
-                    <tr><td>Code Sharing</td><td class="winner">Same as React Native</td><td>None</td><td>None</td><td>None</td></tr>
-                    <tr><td>Real-time Libraries</td><td class="winner">Socket.io (mature)</td><td>STOMP/SockJS</td><td>Gorilla WebSocket</td><td>Socket.io-python</td></tr>
-                    <tr><td>Type Safety</td><td>TypeScript (optional)</td><td class="winner">Java (strict)</td><td class="winner">Go (strict)</td><td>Type hints (optional)</td></tr>
-                    <tr><td>Developer Availability</td><td class="winner">Very High</td><td>High</td><td>Moderate</td><td>High</td></tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section>
-            <h2>Alternative Options Considered</h2>
-
-            <div class="alternative">
-                <div class="alternative-header">
-                    <span class="alternative-name">Java (JVM)</span>
-                    <span class="alternative-tag">Enterprise Standard</span>
-                </div>
-                <p style="color: var(--text-muted); margin-bottom: 1rem;">Mature enterprise runtime with Spring Boot ecosystem.</p>
-                <div class="pros-cons">
-                    <div class="pros">
-                        <h4>Pros</h4>
-                        <ul>
-                            <li>Excellent CPU performance</li>
-                            <li>Strong type system</li>
-                            <li>Enterprise battle-tested</li>
-                            <li>Great tooling (IntelliJ)</li>
-                        </ul>
-                    </div>
-                    <div class="cons">
-                        <h4>Cons for TipsyDrive</h4>
-                        <ul>
-                            <li>No code sharing with React Native</li>
-                            <li>Slow startup (cold start issues)</li>
-                            <li>Higher memory consumption</li>
-                            <li>Different language from frontend</li>
-                        </ul>
-                    </div>
+                <!-- Bottom Line -->
+                <div class="bottom-line">
+                    <h3>Bottom Line</h3>
+                    <p>For TipsyDrive's backend - a <strong>real-time, I/O-heavy ride-hailing API</strong> - Node.js 20 provides:</p>
+                    <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                        <li>Event-driven architecture ideal for thousands of WebSocket connections</li>
+                        <li>Same TypeScript language as React Native apps (code/type sharing)</li>
+                        <li>Mature real-time ecosystem (Socket.io)</li>
+                        <li>Fast startup for serverless/container scaling</li>
+                        <li>Large developer pool in India for hiring</li>
+                    </ul>
                 </div>
             </div>
-
-            <div class="alternative">
-                <div class="alternative-header">
-                    <span class="alternative-name">Go</span>
-                    <span class="alternative-tag">High Performance</span>
-                </div>
-                <p style="color: var(--text-muted); margin-bottom: 1rem;">Compiled language with excellent concurrency via goroutines.</p>
-                <div class="pros-cons">
-                    <div class="pros">
-                        <h4>Pros</h4>
-                        <ul>
-                            <li>Exceptional performance</li>
-                            <li>Low memory footprint</li>
-                            <li>Single binary deployment</li>
-                            <li>Built-in concurrency</li>
-                        </ul>
-                    </div>
-                    <div class="cons">
-                        <h4>Cons for TipsyDrive</h4>
-                        <ul>
-                            <li>No code sharing with frontend</li>
-                            <li>Smaller ecosystem than Node.js</li>
-                            <li>Learning curve for JS devs</li>
-                            <li>Less rapid prototyping</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="alternative">
-                <div class="alternative-header">
-                    <span class="alternative-name">Python</span>
-                    <span class="alternative-tag">ML/AI Ready</span>
-                </div>
-                <p style="color: var(--text-muted); margin-bottom: 1rem;">Versatile language with excellent ML libraries.</p>
-                <div class="pros-cons">
-                    <div class="pros">
-                        <h4>Pros</h4>
-                        <ul>
-                            <li>Great for ML integration</li>
-                            <li>Clean syntax</li>
-                            <li>FastAPI is excellent</li>
-                            <li>Good async support</li>
-                        </ul>
-                    </div>
-                    <div class="cons">
-                        <h4>Cons for TipsyDrive</h4>
-                        <ul>
-                            <li>No code sharing with frontend</li>
-                            <li>GIL limits concurrency</li>
-                            <li>Smaller real-time ecosystem</li>
-                            <li>Type system less mature</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="alternative">
-                <div class="alternative-header">
-                    <span class="alternative-name">Deno / Bun</span>
-                    <span class="alternative-tag">Modern JS Runtimes</span>
-                </div>
-                <p style="color: var(--text-muted); margin-bottom: 1rem;">Newer JavaScript runtimes with modern features.</p>
-                <div class="pros-cons">
-                    <div class="pros">
-                        <h4>Pros</h4>
-                        <ul>
-                            <li>TypeScript native (Deno)</li>
-                            <li>Faster startup (Bun)</li>
-                            <li>Better security model</li>
-                            <li>Modern APIs</li>
-                        </ul>
-                    </div>
-                    <div class="cons">
-                        <h4>Cons for TipsyDrive</h4>
-                        <ul>
-                            <li>Less mature ecosystem</li>
-                            <li>NPM compatibility issues</li>
-                            <li>Smaller community</li>
-                            <li>Risk for production apps</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="bottom-line">
-            <h3>Bottom Line</h3>
-            <p>For TipsyDrive's backend - a <strong>real-time, I/O-heavy ride-hailing API</strong> - Node.js 20 provides:</p>
-            <ul style="margin: 1rem 0; padding-left: 1.5rem;">
-                <li>Event-driven architecture ideal for thousands of WebSocket connections</li>
-                <li>Same TypeScript language as React Native apps (code/type sharing)</li>
-                <li>Mature real-time ecosystem (Socket.io)</li>
-                <li>Fast startup for serverless/container scaling</li>
-                <li>Large developer pool in India for hiring</li>
-            </ul>
-        </div>
-
-        <footer style="text-align: center; padding: 3rem 0; border-top: 1px solid var(--border); margin-top: 3rem; color: var(--text-muted);">
-            <a href="architecture-and-plan.html" style="color: var(--primary); text-decoration: none;">&larr; Back to Architecture & Plan</a>
-        </footer>
+        </main>
     </div>
 </body>
 </html>

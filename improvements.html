@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Future Improvements - TipsyDrive</title>
+    <style>
+        :root {
+            --bg-light: #EAEFEF;
+            --gray-medium: #BFC9D1;
+            --dark: #25343F;
+            --accent: #FF9B51;
+            --accent-light: rgba(255, 155, 81, 0.1);
+            --accent-hover: #e88a42;
+            --bg: #FFFFFF;
+            --text: #25343F;
+            --text-muted: #6B7B8A;
+            --border: #E1E7EB;
+            --success: #34A853;
+            --success-light: rgba(52, 168, 83, 0.1);
+            --danger: #EA4335;
+            --info: #3b82f6;
+            --warning: #f59e0b;
+            --sidebar-width: 280px;
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg-light); color: var(--text); line-height: 1.6; }
+        .layout { display: flex; min-height: 100vh; }
+
+        /* Sidebar */
+        .sidebar { width: var(--sidebar-width); background: var(--dark); position: fixed; top: 0; left: 0; height: 100vh; overflow-y: auto; z-index: 1000; }
+        .sidebar-header { padding: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .sidebar-logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+        .sidebar-logo img { width: 40px; height: 40px; border-radius: 10px; }
+        .sidebar-logo-text { font-size: 1.15rem; font-weight: 600; color: white; }
+        .sidebar-subtitle { font-size: 0.7rem; color: rgba(255,255,255,0.5); margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .sidebar-nav { padding: 1rem 0; }
+        .nav-section { margin-bottom: 0.5rem; }
+        .nav-section-title { padding: 0.75rem 1.25rem 0.5rem; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.35); font-weight: 600; }
+        .nav-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 1.25rem; color: rgba(255,255,255,0.65); text-decoration: none; font-size: 0.85rem; transition: all 0.15s ease; border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255,255,255,0.04); color: white; }
+        .nav-item.active { background: rgba(255, 155, 81, 0.12); color: var(--accent); border-left-color: var(--accent); }
+        .nav-item-icon { width: 18px; display: flex; align-items: center; justify-content: center; opacity: 0.7; }
+
+        /* Main Content */
+        .main-content { flex: 1; margin-left: var(--sidebar-width); min-height: 100vh; }
+        .content-header { background: var(--bg); padding: 2rem 2rem; border-bottom: 1px solid var(--border); }
+        .content-header h1 { font-size: 1.75rem; font-weight: 600; letter-spacing: -0.02em; }
+        .content-header p { color: var(--text-muted); font-size: 0.95rem; margin-top: 0.25rem; }
+
+        .content-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 1rem 2rem; background: var(--bg); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+        .content-tab { padding: 0.5rem 0.85rem; border-radius: 20px; text-decoration: none; color: var(--text-muted); font-size: 0.8rem; font-weight: 500; transition: all 0.15s; border: 1px solid var(--border); }
+        .content-tab:hover { border-color: var(--accent); color: var(--accent); }
+        .content-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+        .content-body { padding: 2rem; max-width: 1000px; }
+
+        /* Section */
+        .section { margin-bottom: 3rem; scroll-margin-top: 80px; }
+        .section-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: var(--dark); display: flex; align-items: center; gap: 0.5rem; }
+        .section-title::before { content: ''; width: 4px; height: 20px; background: var(--accent); border-radius: 2px; }
+
+        /* Cards */
+        .card { background: var(--bg); border-radius: var(--radius); padding: 1.25rem; border: 1px solid var(--border); margin-bottom: 1rem; }
+        .card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--dark); }
+
+        /* Code */
+        code { background: var(--bg-light); padding: 0.15rem 0.4rem; border-radius: 4px; font-family: 'SF Mono', 'Consolas', monospace; font-size: 0.8rem; color: var(--dark); }
+        pre { background: var(--dark); color: #e2e8f0; padding: 1rem; border-radius: var(--radius-sm); overflow-x: auto; font-family: 'SF Mono', 'Consolas', monospace; font-size: 0.75rem; line-height: 1.6; margin: 0.75rem 0; }
+        pre code { background: transparent; padding: 0; color: inherit; }
+        .comment { color: #6b7280; }
+        .keyword { color: #c084fc; }
+        .string { color: #86efac; }
+        .function { color: #60a5fa; }
+
+        /* Install Command */
+        .install-cmd { background: var(--bg-light); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.6rem 1rem; font-family: 'SF Mono', 'Consolas', monospace; font-size: 0.8rem; margin: 0.5rem 0 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+        .install-cmd::before { content: '$'; color: var(--success); font-weight: bold; }
+
+        /* Tables */
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        th, td { padding: 0.6rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: var(--bg-light); color: var(--dark); font-weight: 600; font-size: 0.8rem; }
+
+        /* Feature List */
+        .feature-list { list-style: none; }
+        .feature-list li { padding: 0.35rem 0 0.35rem 1.25rem; position: relative; font-size: 0.875rem; }
+        .feature-list li::before { content: ''; position: absolute; left: 0; top: 0.65rem; width: 6px; height: 6px; border-radius: 50%; background: var(--success); }
+
+        /* Badges */
+        .badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.7rem; font-weight: 500; }
+        .badge-primary { background: var(--accent-light); color: var(--accent); }
+        .badge-success { background: var(--success-light); color: var(--success); }
+        .badge-warning { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .badge-danger { background: rgba(234, 67, 53, 0.1); color: var(--danger); }
+
+        /* Metric Card */
+        .metric-card { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: var(--bg-light); border-radius: var(--radius-sm); margin-bottom: 0.5rem; font-size: 0.85rem; }
+        .metric-name { font-family: 'SF Mono', monospace; font-size: 0.8rem; color: var(--accent); min-width: 180px; }
+        .metric-desc { color: var(--text-muted); flex: 1; font-size: 0.8rem; }
+        .metric-alert { font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 4px; background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+
+        /* Priority Section */
+        .priority-section { background: linear-gradient(135deg, var(--accent-light) 0%, var(--success-light) 100%); border-radius: var(--radius); padding: 1.5rem; margin: 1.5rem 0; }
+        .priority-section h3 { margin-top: 0; margin-bottom: 1rem; }
+
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); }
+            .main-content { margin-left: 0; }
+            .content-body { padding: 1rem; }
+        }
+    </style>
+    <script src="auth.js"></script>
+</head>
+<body>
+    <div class="layout">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="sidebar-logo">
+                    <img src="logo.png" alt="TipsyDrive">
+                    <span class="sidebar-logo-text">TipsyDrive</span>
+                </a>
+                <div class="sidebar-subtitle">Technical Documentation</div>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Overview</div>
+                    <a href="index.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>Dashboard</a>
+                    <a href="architecture-and-plan.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></span>Architecture</a>
+                    <a href="improvements.html" class="nav-item active"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg></span>Improvements</a>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">Frontend</div>
+                    <a href="why-react-native.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></span>React Native</a>
+                    <a href="why-redux-toolkit.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>Redux Toolkit</a>
+                    <a href="why-tanstack-query.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12a9 9 0 11-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg></span>TanStack Query</a>
+                    <a href="why-react-admin.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></span>React Admin</a>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">Backend</div>
+                    <a href="why-nodejs.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></span>Node.js</a>
+                    <a href="why-nestjs.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/></svg></span>NestJS</a>
+                    <a href="why-prisma.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg></span>Prisma</a>
+                    <a href="why-socketio.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>Socket.io</a>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">Database</div>
+                    <a href="why-postgresql.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></span>PostgreSQL</a>
+                    <a href="why-redis.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></span>Redis</a>
+                    <a href="why-bullmq.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg></span>BullMQ</a>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">Services</div>
+                    <a href="why-razorpay.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span>Razorpay</a>
+                    <a href="why-google-maps.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>Google Maps</a>
+                    <a href="why-msg91.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>MSG91</a>
+                    <a href="why-firebase-fcm.html" class="nav-item"><span class="nav-item-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span>Firebase FCM</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <h1>Future Improvements & Best Practices</h1>
+                <p>Production-ready enhancements for TipsyDrive</p>
+            </div>
+
+            <div class="content-tabs">
+                <a href="#observability" class="content-tab active">Observability</a>
+                <a href="#performance" class="content-tab">Performance</a>
+                <a href="#security" class="content-tab">Security</a>
+                <a href="#devex" class="content-tab">Developer Experience</a>
+                <a href="#priority" class="content-tab">Priority</a>
+            </div>
+
+            <div class="content-body">
+                <!-- Observability -->
+                <div id="observability" class="section">
+                    <h2 class="section-title">Observability</h2>
+
+                    <div class="card">
+                        <h3>Structured Logging</h3>
+                        <div class="install-cmd">npm install @nestjs/pino pino-http pino-pretty</div>
+                        <pre><code><span class="comment">// apps/api/src/app.module.ts</span>
+<span class="keyword">import</span> { LoggerModule } <span class="keyword">from</span> <span class="string">'nestjs-pino'</span>;
+
+@<span class="function">Module</span>({
+  imports: [
+    LoggerModule.<span class="function">forRoot</span>({
+      pinoHttp: {
+        level: process.env.NODE_ENV === <span class="string">'production'</span> ? <span class="string">'info'</span> : <span class="string">'debug'</span>,
+        transport: process.env.NODE_ENV !== <span class="string">'production'</span>
+          ? { target: <span class="string">'pino-pretty'</span> }
+          : <span class="keyword">undefined</span>,
+      },
+    }),
+  ],
+})</code></pre>
+                        <ul class="feature-list">
+                            <li>Include context: <code>userId</code>, <code>rideId</code>, <code>driverId</code></li>
+                            <li>Use request correlation IDs for distributed tracing</li>
+                            <li>Log levels: error (failures), warn (recoverable), info (business), debug (dev)</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>Error Tracking (Sentry)</h3>
+                        <div class="install-cmd">npm install @sentry/node @sentry/react-native</div>
+                        <pre><code><span class="comment">// apps/api/src/main.ts</span>
+<span class="keyword">import</span> * <span class="keyword">as</span> Sentry <span class="keyword">from</span> <span class="string">'@sentry/node'</span>;
+
+Sentry.<span class="function">init</span>({
+  dsn: process.env.SENTRY_DSN,
+  environment: process.env.NODE_ENV,
+  tracesSampleRate: 0.1, <span class="comment">// 10% of transactions</span>
+});</code></pre>
+                    </div>
+
+                    <div class="card">
+                        <h3>Health Check Endpoints</h3>
+                        <div class="install-cmd">npm install @nestjs/terminus</div>
+                        <pre><code>@<span class="function">Controller</span>(<span class="string">'health'</span>)
+<span class="keyword">export class</span> HealthController {
+  @<span class="function">Get</span>()
+  @<span class="function">HealthCheck</span>()
+  <span class="function">check</span>() {
+    <span class="keyword">return</span> <span class="keyword">this</span>.health.<span class="function">check</span>([
+      () => <span class="keyword">this</span>.prisma.<span class="function">pingCheck</span>(<span class="string">'database'</span>),
+    ]);
+  }
+}</code></pre>
+                    </div>
+
+                    <div class="card">
+                        <h3>Metrics to Track</h3>
+                        <div class="metric-card"><span class="metric-name">api_request_duration_ms</span><span class="metric-desc">API response time</span><span class="metric-alert">Alert: p95 > 500ms</span></div>
+                        <div class="metric-card"><span class="metric-name">api_error_rate</span><span class="metric-desc">5xx error percentage</span><span class="metric-alert">Alert: > 1%</span></div>
+                        <div class="metric-card"><span class="metric-name">active_rides</span><span class="metric-desc">Currently in-progress rides</span><span class="metric-alert">Informational</span></div>
+                        <div class="metric-card"><span class="metric-name">online_drivers</span><span class="metric-desc">Drivers available</span><span class="metric-alert">Alert: < 5 in area</span></div>
+                        <div class="metric-card"><span class="metric-name">payment_failure_rate</span><span class="metric-desc">Failed payments</span><span class="metric-alert">Alert: > 5%</span></div>
+                    </div>
+                </div>
+
+                <!-- Performance -->
+                <div id="performance" class="section">
+                    <h2 class="section-title">Performance</h2>
+
+                    <div class="card">
+                        <h3>Database Connection Pooling (PgBouncer)</h3>
+                        <pre><code><span class="comment"># docker-compose.yml addition</span>
+pgbouncer:
+  image: edoburu/pgbouncer
+  environment:
+    DATABASE_URL: postgresql://user:pass@postgres:5432/tipsydrive
+    POOL_MODE: transaction
+    MAX_CLIENT_CONN: 100
+    DEFAULT_POOL_SIZE: 20</code></pre>
+                    </div>
+
+                    <div class="card">
+                        <h3>Redis Caching Strategy</h3>
+                        <table>
+                            <thead><tr><th>Cache Key Pattern</th><th>TTL</th><th>Purpose</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>driver:location:{id}</code></td><td>30s</td><td>Real-time driver position</td></tr>
+                                <tr><td><code>user:profile:{id}</code></td><td>15min</td><td>User profile data</td></tr>
+                                <tr><td><code>fare:estimate:{hash}</code></td><td>5min</td><td>Fare calculation cache</td></tr>
+                                <tr><td><code>config:service-types</code></td><td>1hr</td><td>Static configuration</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="card">
+                        <h3>API Response Optimization</h3>
+                        <div class="install-cmd">npm install compression</div>
+                        <ul class="feature-list">
+                            <li>Enable gzip compression for responses</li>
+                            <li>Add pagination to all list endpoints (default: 20, max: 100)</li>
+                            <li>Use cursor-based pagination for real-time data</li>
+                            <li>Add ETag headers for cacheable responses</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Security -->
+                <div id="security" class="section">
+                    <h2 class="section-title">Security</h2>
+
+                    <div class="card">
+                        <h3>Rate Limiting</h3>
+                        <div class="install-cmd">npm install @nestjs/throttler</div>
+                        <pre><code>@<span class="function">Module</span>({
+  imports: [
+    ThrottlerModule.<span class="function">forRoot</span>([
+      { name: <span class="string">'short'</span>, ttl: 1000, limit: 3 },      <span class="comment">// 3 req/sec</span>
+      { name: <span class="string">'medium'</span>, ttl: 60000, limit: 100 },  <span class="comment">// 100 req/min</span>
+    ]),
+  ],
+})</code></pre>
+                    </div>
+
+                    <div class="card">
+                        <h3>Security Headers (Helmet)</h3>
+                        <div class="install-cmd">npm install helmet</div>
+                        <pre><code><span class="keyword">import</span> helmet <span class="keyword">from</span> <span class="string">'helmet'</span>;
+app.<span class="function">use</span>(<span class="function">helmet</span>());</code></pre>
+                    </div>
+
+                    <div class="card">
+                        <h3>JWT Security Enhancements</h3>
+                        <ul class="feature-list">
+                            <li>Token rotation on refresh</li>
+                            <li>Invalidate old refresh tokens in Redis</li>
+                            <li>Short-lived access tokens (15m)</li>
+                            <li>Longer refresh tokens (7d)</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>Audit Logging</h3>
+                        <ul class="feature-list">
+                            <li>Log all admin actions with user ID and payload</li>
+                            <li>Track sensitive operations (driver approval, payouts)</li>
+                            <li>Use structured logging format for queryability</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Developer Experience -->
+                <div id="devex" class="section">
+                    <h2 class="section-title">Developer Experience</h2>
+
+                    <div class="card">
+                        <h3>API Documentation (Swagger)</h3>
+                        <div class="install-cmd">npm install @nestjs/swagger swagger-ui-express</div>
+                        <pre><code><span class="keyword">const</span> config = <span class="keyword">new</span> <span class="function">DocumentBuilder</span>()
+  .<span class="function">setTitle</span>(<span class="string">'TipsyDrive API'</span>)
+  .<span class="function">setVersion</span>(<span class="string">'1.0'</span>)
+  .<span class="function">addBearerAuth</span>()
+  .<span class="function">build</span>();
+
+SwaggerModule.<span class="function">setup</span>(<span class="string">'api/docs'</span>, app, document);</code></pre>
+                    </div>
+
+                    <div class="card">
+                        <h3>Pre-commit Hooks</h3>
+                        <div class="install-cmd">npm install -D husky lint-staged && npx husky init</div>
+                        <pre><code><span class="comment">// package.json</span>
+{
+  <span class="string">"lint-staged"</span>: {
+    <span class="string">"*.{ts,tsx}"</span>: [<span class="string">"eslint --fix"</span>, <span class="string">"prettier --write"</span>]
+  }
+}</code></pre>
+                    </div>
+
+                    <div class="card">
+                        <h3>Job Queue Monitoring (Bull Board)</h3>
+                        <div class="install-cmd">npm install @bull-board/express @bull-board/nestjs</div>
+                    </div>
+                </div>
+
+                <!-- Priority -->
+                <div id="priority" class="section">
+                    <h2 class="section-title">Implementation Priority</h2>
+
+                    <div class="priority-section">
+                        <h3>Quick Wins - Start Here</h3>
+                        <table>
+                            <thead><tr><th>Phase</th><th>Task</th><th>Package</th></tr></thead>
+                            <tbody>
+                                <tr><td><span class="badge badge-primary">1</span></td><td>Swagger API docs</td><td><code>@nestjs/swagger</code></td></tr>
+                                <tr><td><span class="badge badge-primary">1</span></td><td>Sentry error tracking</td><td><code>@sentry/node</code></td></tr>
+                                <tr><td><span class="badge badge-primary">1</span></td><td>Health check endpoints</td><td><code>@nestjs/terminus</code></td></tr>
+                                <tr><td><span class="badge badge-primary">1</span></td><td>Rate limiting</td><td><code>@nestjs/throttler</code></td></tr>
+                                <tr><td><span class="badge badge-success">2</span></td><td>Structured logging</td><td><code>nestjs-pino</code></td></tr>
+                                <tr><td><span class="badge badge-success">2</span></td><td>Security headers</td><td><code>helmet</code></td></tr>
+                                <tr><td><span class="badge badge-success">2</span></td><td>Pre-commit hooks</td><td><code>husky</code></td></tr>
+                                <tr><td><span class="badge badge-warning">3</span></td><td>Redis caching layer</td><td>-</td></tr>
+                                <tr><td><span class="badge badge-warning">3</span></td><td>Query optimization</td><td>-</td></tr>
+                                <tr><td><span class="badge badge-danger">4</span></td><td>APM + Dashboards</td><td>Prometheus, Grafana</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const tabs = document.querySelectorAll('.content-tab');
+        const sections = document.querySelectorAll('.section');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 150;
+                if (scrollY >= sectionTop) current = section.getAttribute('id');
+            });
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.getAttribute('href') === '#' + current) tab.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

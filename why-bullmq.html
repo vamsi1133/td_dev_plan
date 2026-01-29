@@ -6,118 +6,333 @@
     <title>Why BullMQ? - TipsyDrive Technology Choice</title>
     <style>
         :root {
-            --primary: #4f46e5;
-            --primary-dark: #4338ca;
+            --bg-light: #EAEFEF;
+            --gray-medium: #BFC9D1;
+            --dark: #25343F;
+            --accent: #FF9B51;
+            --sidebar-width: 280px;
             --secondary: #059669;
             --warning: #d97706;
             --danger: #dc2626;
-            --bg: #ffffff;
-            --bg-card: #f8fafc;
-            --bg-card-hover: #f1f5f9;
-            --text: #1e293b;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f8f9fa;
+            --text: #25343F;
             --text-muted: #64748b;
             --border: #e2e8f0;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
-        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-muted); text-decoration: none; margin-bottom: 2rem; transition: color 0.2s; }
-        .back-link:hover { color: var(--primary); }
-        header { text-align: center; padding: 2rem 0 3rem; border-bottom: 1px solid var(--border); margin-bottom: 3rem; }
-        header h1 { font-size: 2.5rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.5rem; }
-        header p { color: var(--text-muted); font-size: 1.1rem; }
-        .selected-badge { display: inline-block; padding: 0.5rem 1rem; background: var(--secondary); border-radius: 9999px; font-weight: 600; margin-top: 1rem; }
-        section { margin-bottom: 3rem; }
-        h2 { font-size: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary); display: inline-block; }
-        h3 { font-size: 1.25rem; margin: 1.5rem 0 1rem; color: var(--secondary); }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg-light); color: var(--text); line-height: 1.6; }
+
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: var(--dark);
+            color: #fff;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: #fff;
+        }
+        .sidebar-logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+        }
+        .sidebar-logo span {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+        .nav-section {
+            margin-bottom: 1rem;
+        }
+        .nav-section-title {
+            padding: 0.5rem 1.5rem;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: rgba(255,255,255,0.4);
+            font-weight: 600;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.625rem 1.5rem;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+        .nav-item:hover {
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+        }
+        .nav-item.active {
+            background: rgba(255, 155, 81, 0.12);
+            color: var(--accent);
+            border-left-color: var(--accent);
+        }
+        .nav-item svg {
+            width: 18px;
+            height: 18px;
+            opacity: 0.7;
+        }
+        .nav-item.active svg {
+            opacity: 1;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+        }
+        .content-header {
+            background: var(--dark);
+            color: #fff;
+            padding: 2rem 2.5rem;
+        }
+        .content-header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .content-header p {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.95rem;
+        }
+        .selected-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--accent);
+            color: var(--dark);
+            border-radius: 9999px;
+            font-weight: 600;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+        }
+        .content-body {
+            padding: 2rem 2.5rem;
+        }
+
+        section { margin-bottom: 2.5rem; }
+        h2 { font-size: 1.35rem; margin-bottom: 1.25rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--accent); display: inline-block; color: var(--dark); }
+        h3 { font-size: 1.15rem; margin: 1.25rem 0 0.75rem; color: var(--accent); }
         .card { background: var(--bg-card); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; border: 1px solid var(--border); transition: transform 0.2s, box-shadow 0.2s; }
-        .card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
         .grid { display: grid; gap: 1.5rem; }
         .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
         table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
         th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
-        th { background: var(--bg-card); color: var(--primary); font-weight: 600; }
+        th { background: var(--bg-light); color: var(--dark); font-weight: 600; }
         tr:hover { background: var(--bg-card-hover); }
         .winner { color: var(--secondary); font-weight: 500; }
         .alternative { background: var(--bg-card); border-radius: 12px; padding: 1.5rem; border: 1px solid var(--border); margin-bottom: 1rem; }
         .alternative-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
         .alternative-name { font-size: 1.25rem; font-weight: 600; color: var(--warning); }
-        .alternative-tag { padding: 0.25rem 0.75rem; background: var(--bg-card-hover); border-radius: 9999px; font-size: 0.75rem; color: var(--text-muted); }
+        .alternative-tag { padding: 0.25rem 0.75rem; background: var(--bg-light); border-radius: 9999px; font-size: 0.75rem; color: var(--text-muted); }
         .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
         .pros h4 { color: var(--secondary); }
         .cons h4 { color: var(--danger); }
         .pros ul, .cons ul { list-style: none; margin-top: 0.5rem; }
         .pros li::before { content: '+ '; color: var(--secondary); font-weight: bold; }
         .cons li::before { content: '- '; color: var(--danger); font-weight: bold; }
-        .bottom-line { background: var(--bg-card); border-radius: 12px; padding: 1.5rem; border-left: 4px solid var(--secondary); margin-top: 2rem; }
-        .bottom-line h3 { color: var(--secondary); margin-top: 0; }
+        .bottom-line { background: var(--bg-card); border-radius: 12px; padding: 1.5rem; border-left: 4px solid var(--accent); margin-top: 2rem; }
+        .bottom-line h3 { color: var(--accent); margin-top: 0; }
+        pre { background: var(--dark); color: #fff; padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: 'Fira Code', 'Consolas', monospace; font-size: 0.85rem; line-height: 1.5; margin: 1rem 0; }
         .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem; }
-        .feature-item { padding: 1rem; background: var(--bg); border-radius: 8px; border-left: 3px solid var(--primary); }
-        .feature-item h4 { color: var(--primary); margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .feature-item { padding: 1rem; background: var(--bg-light); border-radius: 8px; border-left: 3px solid var(--accent); }
+        .feature-item h4 { color: var(--dark); margin-bottom: 0.5rem; font-size: 0.95rem; }
         .feature-item small { color: var(--text-muted); }
-        pre { background: var(--bg); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: 'Fira Code', 'Consolas', monospace; font-size: 0.85rem; line-height: 1.5; margin: 1rem 0; }
-        @media (max-width: 768px) { .container { padding: 1rem; } header h1 { font-size: 1.75rem; } .pros-cons { grid-template-columns: 1fr; } }
+
+        /* Doc Link */
+        .doc-link { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem; padding: 0.5rem 1rem; background: var(--accent); color: white; text-decoration: none; border-radius: 8px; font-size: 0.85rem; font-weight: 500; transition: background 0.2s; }
+        .doc-link:hover { background: #e88a42; }
+
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; }
+            .content-body { padding: 1.5rem; }
+            .content-header { padding: 1.5rem; }
+            .content-header h1 { font-size: 1.5rem; }
+            .pros-cons { grid-template-columns: 1fr; }
+        }
     </style>
     <script src="auth.js"></script>
 </head>
 <body>
-    <div class="container">
-        <a href="architecture-and-plan.html" class="back-link"><span>&larr;</span> Back to Architecture</a>
-
-        <header>
-            <h1>Why BullMQ?</h1>
-            <p>Technology choice justification for TipsyDrive job queue</p>
-            <div class="selected-badge">Current Selection: BullMQ</div>
-        </header>
-
-        <section>
-            <h2>TipsyDrive Job Queue Use Cases</h2>
-            <div class="feature-grid">
-                <div class="feature-item">
-                    <h4>Push Notifications</h4>
-                    <small>Queue FCM notifications for ride updates</small>
+    <div class="layout">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="sidebar-logo">
+                    <img src="logo.png" alt="TipsyDrive Logo">
+                    <span>TipsyDrive</span>
+                </a>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Overview</div>
+                    <a href="index.html" class="nav-item">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                        Dashboard
+                    </a>
+                    <a href="architecture-and-plan.html" class="nav-item">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                        Architecture
+                    </a>
+                    <a href="improvements.html" class="nav-item">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                        Improvements
+                    </a>
                 </div>
-                <div class="feature-item">
-                    <h4>SMS/OTP</h4>
-                    <small>Queue MSG91 API calls with retry logic</small>
+                <div class="nav-section">
+                    <div class="nav-section-title">Frontend</div>
+                    <a href="why-react-native.html" class="nav-item">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                        React Native
+                    </a>
+                    <a href="why-redux-toolkit.html" class="nav-item">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/></svg>
+                        Redux Toolkit
+                    </a>
+                    <a href="why-tanstack-query.html" class="nav-item">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                        TanStack Query
+                    </a>
+                    <a href="why-react-admin.html" class="nav-item">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                        React Admin
+                    </a>
                 </div>
-                <div class="feature-item">
-                    <h4>Driver Matching</h4>
-                    <small>Async driver search with timeout handling</small>
+                <div class="nav-section">
+                    <div class="nav-section-title">Backend</div>
+                    <a href="why-nodejs.html" class="nav-item">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2"/></svg>
+                        Node.js
+                    </a>
+                    <a href="why-nestjs.html" class="nav-item">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+                        NestJS
+                    </a>
+                    <a href="why-prisma.html" class="nav-item">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/></svg>
+                        Prisma
+                    </a>
+                    <a href="why-socketio.html" class="nav-item">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                        Socket.io
+                    </a>
                 </div>
-                <div class="feature-item">
-                    <h4>Payment Processing</h4>
-                    <small>Razorpay webhook processing with retries</small>
+                <div class="nav-section">
+                    <div class="nav-section-title">Database</div>
+                    <a href="why-postgresql.html" class="nav-item">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/></svg>
+                        PostgreSQL
+                    </a>
+                    <a href="why-redis.html" class="nav-item">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+                        Redis
+                    </a>
+                    <a href="why-bullmq.html" class="nav-item active">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                        BullMQ
+                    </a>
                 </div>
-                <div class="feature-item">
-                    <h4>Weekly Payouts</h4>
-                    <small>Scheduled driver payout jobs</small>
-                </div>
-                <div class="feature-item">
-                    <h4>Email Reports</h4>
-                    <small>Async report generation and sending</small>
+                <div class="nav-section">
+                    <div class="nav-section-title">Services</div>
+                    <a href="why-razorpay.html" class="nav-item">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+                        Razorpay
+                    </a>
+                    <a href="why-google-maps.html" class="nav-item">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        Google Maps
+                    </a>
+                    <a href="why-msg91.html" class="nav-item">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+                        MSG91
+                    </a>
+                    <a href="why-firebase-fcm.html" class="nav-item">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                        Firebase FCM
+                    </a>
                 </div>
             </div>
-        </section>
+        </nav>
 
-        <section>
-            <h2>Why We Chose BullMQ</h2>
-            <div class="grid grid-2">
-                <div class="card">
-                    <h3>Key Advantages</h3>
-                    <table>
-                        <tr><th>Factor</th><th>Benefit</th></tr>
-                        <tr><td>Redis-Based</td><td>Uses existing Redis - no new infrastructure</td></tr>
-                        <tr><td>TypeScript</td><td>First-class TypeScript support with types</td></tr>
-                        <tr><td>NestJS Module</td><td>@nestjs/bullmq official integration</td></tr>
-                        <tr><td>Delayed Jobs</td><td>Schedule jobs for future execution</td></tr>
-                        <tr><td>Retries</td><td>Automatic retry with backoff strategies</td></tr>
-                        <tr><td>Rate Limiting</td><td>Control job processing rate</td></tr>
-                    </table>
-                </div>
-                <div class="card">
-                    <h3>Code Example</h3>
-                    <pre>// Define queue
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Why BullMQ?</h1>
+                <p>Technology choice justification for TipsyDrive job queue</p>
+                <div class="selected-badge">Current Selection: BullMQ</div>
+                <a href="https://docs.bullmq.io/" target="_blank" class="doc-link">Official Documentation ↗</a>
+            </header>
+
+            <div class="content-body">
+                <section>
+                    <h2>TipsyDrive Job Queue Use Cases</h2>
+                    <div class="feature-grid">
+                        <div class="feature-item">
+                            <h4>Push Notifications</h4>
+                            <small>Queue FCM notifications for ride updates</small>
+                        </div>
+                        <div class="feature-item">
+                            <h4>SMS/OTP</h4>
+                            <small>Queue MSG91 API calls with retry logic</small>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Driver Matching</h4>
+                            <small>Async driver search with timeout handling</small>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Payment Processing</h4>
+                            <small>Razorpay webhook processing with retries</small>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Weekly Payouts</h4>
+                            <small>Scheduled driver payout jobs</small>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Email Reports</h4>
+                            <small>Async report generation and sending</small>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Why We Chose BullMQ</h2>
+                    <div class="grid grid-2">
+                        <div class="card">
+                            <h3>Key Advantages</h3>
+                            <table>
+                                <tr><th>Factor</th><th>Benefit</th></tr>
+                                <tr><td>Redis-Based</td><td>Uses existing Redis - no new infrastructure</td></tr>
+                                <tr><td>TypeScript</td><td>First-class TypeScript support with types</td></tr>
+                                <tr><td>NestJS Module</td><td>@nestjs/bullmq official integration</td></tr>
+                                <tr><td>Delayed Jobs</td><td>Schedule jobs for future execution</td></tr>
+                                <tr><td>Retries</td><td>Automatic retry with backoff strategies</td></tr>
+                                <tr><td>Rate Limiting</td><td>Control job processing rate</td></tr>
+                            </table>
+                        </div>
+                        <div class="card">
+                            <h3>Code Example</h3>
+                            <pre>// Define queue
 @Processor('notifications')
 class NotificationProcessor {
   @Process('push')
@@ -137,165 +352,163 @@ await this.notificationQueue.add('push', {
   attempts: 3,
   backoff: { type: 'exponential', delay: 1000 }
 });</pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Detailed Comparison</h2>
+                    <table>
+                        <thead>
+                            <tr><th>Aspect</th><th>BullMQ</th><th>Agenda</th><th>Bee-Queue</th><th>AWS SQS</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Backend</td><td>Redis</td><td>MongoDB</td><td>Redis</td><td>AWS Managed</td></tr>
+                            <tr><td>TypeScript</td><td class="winner">Excellent</td><td>Good</td><td>Basic</td><td>Via SDK</td></tr>
+                            <tr><td>NestJS Integration</td><td class="winner">@nestjs/bullmq</td><td>Manual</td><td>Manual</td><td>Manual</td></tr>
+                            <tr><td>Delayed Jobs</td><td class="winner">Built-in</td><td class="winner">Built-in</td><td>Limited</td><td>Delay seconds only</td></tr>
+                            <tr><td>Rate Limiting</td><td class="winner">Built-in</td><td>Manual</td><td>Manual</td><td>Manual</td></tr>
+                            <tr><td>Retries</td><td class="winner">Exponential backoff</td><td class="winner">Configurable</td><td>Basic</td><td class="winner">Built-in</td></tr>
+                            <tr><td>Dashboard UI</td><td class="winner">Bull Board</td><td>Agendash</td><td>Arena</td><td>AWS Console</td></tr>
+                            <tr><td>Performance</td><td class="winner">Very High</td><td>Moderate</td><td class="winner">Very High</td><td>High</td></tr>
+                            <tr><td>Maintenance</td><td>Active</td><td>Moderate</td><td>Low activity</td><td class="winner">AWS Managed</td></tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section>
+                    <h2>Alternative Options Considered</h2>
+
+                    <div class="alternative">
+                        <div class="alternative-header">
+                            <span class="alternative-name">Agenda</span>
+                            <span class="alternative-tag">MongoDB-Based</span>
+                        </div>
+                        <p style="color: var(--text-muted); margin-bottom: 1rem;">Job scheduling library using MongoDB as storage.</p>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros</h4>
+                                <ul>
+                                    <li>MongoDB persistence</li>
+                                    <li>Good for cron-like jobs</li>
+                                    <li>Agendash UI available</li>
+                                    <li>Mature library</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons for TipsyDrive</h4>
+                                <ul>
+                                    <li>We use PostgreSQL, not MongoDB</li>
+                                    <li>Would add new DB dependency</li>
+                                    <li>Slower than Redis-based</li>
+                                    <li>Less active development</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alternative">
+                        <div class="alternative-header">
+                            <span class="alternative-name">AWS SQS + Lambda</span>
+                            <span class="alternative-tag">Serverless</span>
+                        </div>
+                        <p style="color: var(--text-muted); margin-bottom: 1rem;">AWS managed message queue with Lambda processing.</p>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros</h4>
+                                <ul>
+                                    <li>Fully managed, no infrastructure</li>
+                                    <li>Auto-scaling</li>
+                                    <li>Very reliable</li>
+                                    <li>Pay-per-message</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons for TipsyDrive</h4>
+                                <ul>
+                                    <li>Lambda cold starts add latency</li>
+                                    <li>Complex for NestJS integration</li>
+                                    <li>Harder to test locally</li>
+                                    <li>Vendor lock-in</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <p style="margin-top: 1rem; padding: 0.75rem; background: var(--bg-light); border-radius: 8px; font-size: 0.9rem;">
+                            <strong style="color: var(--warning);">Future consideration:</strong> May consider SQS for high-throughput event processing at scale.
+                        </p>
+                    </div>
+
+                    <div class="alternative">
+                        <div class="alternative-header">
+                            <span class="alternative-name">RabbitMQ</span>
+                            <span class="alternative-tag">Message Broker</span>
+                        </div>
+                        <p style="color: var(--text-muted); margin-bottom: 1rem;">Full-featured AMQP message broker.</p>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros</h4>
+                                <ul>
+                                    <li>Very powerful routing</li>
+                                    <li>Multiple exchange types</li>
+                                    <li>Reliable message delivery</li>
+                                    <li>Management UI built-in</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons for TipsyDrive</h4>
+                                <ul>
+                                    <li>Another service to manage</li>
+                                    <li>More complex than needed</li>
+                                    <li>Overkill for our use case</li>
+                                    <li>Redis already available</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alternative">
+                        <div class="alternative-header">
+                            <span class="alternative-name">Bee-Queue</span>
+                            <span class="alternative-tag">Lightweight Redis Queue</span>
+                        </div>
+                        <p style="color: var(--text-muted); margin-bottom: 1rem;">Simple, fast Redis queue (predecessor concept to BullMQ).</p>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros</h4>
+                                <ul>
+                                    <li>Very fast</li>
+                                    <li>Simple API</li>
+                                    <li>Low overhead</li>
+                                    <li>Redis-based</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons for TipsyDrive</h4>
+                                <ul>
+                                    <li>Limited features vs BullMQ</li>
+                                    <li>No official NestJS module</li>
+                                    <li>Less active maintenance</li>
+                                    <li>TypeScript support limited</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="bottom-line">
+                    <h3>Bottom Line</h3>
+                    <p>For TipsyDrive's background jobs - <strong>notifications, SMS, payment processing, and scheduled tasks</strong> - BullMQ provides:</p>
+                    <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                        <li>Uses existing Redis - no additional infrastructure</li>
+                        <li>First-class NestJS integration via @nestjs/bullmq</li>
+                        <li>Excellent TypeScript support with full type safety</li>
+                        <li>Delayed jobs for scheduled driver payouts</li>
+                        <li>Automatic retries with exponential backoff</li>
+                        <li>Bull Board dashboard for job monitoring</li>
+                    </ul>
                 </div>
             </div>
-        </section>
-
-        <section>
-            <h2>Detailed Comparison</h2>
-            <table>
-                <thead>
-                    <tr><th>Aspect</th><th>BullMQ</th><th>Agenda</th><th>Bee-Queue</th><th>AWS SQS</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>Backend</td><td>Redis</td><td>MongoDB</td><td>Redis</td><td>AWS Managed</td></tr>
-                    <tr><td>TypeScript</td><td class="winner">Excellent</td><td>Good</td><td>Basic</td><td>Via SDK</td></tr>
-                    <tr><td>NestJS Integration</td><td class="winner">@nestjs/bullmq</td><td>Manual</td><td>Manual</td><td>Manual</td></tr>
-                    <tr><td>Delayed Jobs</td><td class="winner">Built-in</td><td class="winner">Built-in</td><td>Limited</td><td>Delay seconds only</td></tr>
-                    <tr><td>Rate Limiting</td><td class="winner">Built-in</td><td>Manual</td><td>Manual</td><td>Manual</td></tr>
-                    <tr><td>Retries</td><td class="winner">Exponential backoff</td><td class="winner">Configurable</td><td>Basic</td><td class="winner">Built-in</td></tr>
-                    <tr><td>Dashboard UI</td><td class="winner">Bull Board</td><td>Agendash</td><td>Arena</td><td>AWS Console</td></tr>
-                    <tr><td>Performance</td><td class="winner">Very High</td><td>Moderate</td><td class="winner">Very High</td><td>High</td></tr>
-                    <tr><td>Maintenance</td><td>Active</td><td>Moderate</td><td>Low activity</td><td class="winner">AWS Managed</td></tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section>
-            <h2>Alternative Options Considered</h2>
-
-            <div class="alternative">
-                <div class="alternative-header">
-                    <span class="alternative-name">Agenda</span>
-                    <span class="alternative-tag">MongoDB-Based</span>
-                </div>
-                <p style="color: var(--text-muted); margin-bottom: 1rem;">Job scheduling library using MongoDB as storage.</p>
-                <div class="pros-cons">
-                    <div class="pros">
-                        <h4>Pros</h4>
-                        <ul>
-                            <li>MongoDB persistence</li>
-                            <li>Good for cron-like jobs</li>
-                            <li>Agendash UI available</li>
-                            <li>Mature library</li>
-                        </ul>
-                    </div>
-                    <div class="cons">
-                        <h4>Cons for TipsyDrive</h4>
-                        <ul>
-                            <li>We use PostgreSQL, not MongoDB</li>
-                            <li>Would add new DB dependency</li>
-                            <li>Slower than Redis-based</li>
-                            <li>Less active development</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="alternative">
-                <div class="alternative-header">
-                    <span class="alternative-name">AWS SQS + Lambda</span>
-                    <span class="alternative-tag">Serverless</span>
-                </div>
-                <p style="color: var(--text-muted); margin-bottom: 1rem;">AWS managed message queue with Lambda processing.</p>
-                <div class="pros-cons">
-                    <div class="pros">
-                        <h4>Pros</h4>
-                        <ul>
-                            <li>Fully managed, no infrastructure</li>
-                            <li>Auto-scaling</li>
-                            <li>Very reliable</li>
-                            <li>Pay-per-message</li>
-                        </ul>
-                    </div>
-                    <div class="cons">
-                        <h4>Cons for TipsyDrive</h4>
-                        <ul>
-                            <li>Lambda cold starts add latency</li>
-                            <li>Complex for NestJS integration</li>
-                            <li>Harder to test locally</li>
-                            <li>Vendor lock-in</li>
-                        </ul>
-                    </div>
-                </div>
-                <p style="margin-top: 1rem; padding: 0.75rem; background: var(--bg); border-radius: 8px; font-size: 0.9rem;">
-                    <strong style="color: var(--warning);">Future consideration:</strong> May consider SQS for high-throughput event processing at scale.
-                </p>
-            </div>
-
-            <div class="alternative">
-                <div class="alternative-header">
-                    <span class="alternative-name">RabbitMQ</span>
-                    <span class="alternative-tag">Message Broker</span>
-                </div>
-                <p style="color: var(--text-muted); margin-bottom: 1rem;">Full-featured AMQP message broker.</p>
-                <div class="pros-cons">
-                    <div class="pros">
-                        <h4>Pros</h4>
-                        <ul>
-                            <li>Very powerful routing</li>
-                            <li>Multiple exchange types</li>
-                            <li>Reliable message delivery</li>
-                            <li>Management UI built-in</li>
-                        </ul>
-                    </div>
-                    <div class="cons">
-                        <h4>Cons for TipsyDrive</h4>
-                        <ul>
-                            <li>Another service to manage</li>
-                            <li>More complex than needed</li>
-                            <li>Overkill for our use case</li>
-                            <li>Redis already available</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="alternative">
-                <div class="alternative-header">
-                    <span class="alternative-name">Bee-Queue</span>
-                    <span class="alternative-tag">Lightweight Redis Queue</span>
-                </div>
-                <p style="color: var(--text-muted); margin-bottom: 1rem;">Simple, fast Redis queue (predecessor concept to BullMQ).</p>
-                <div class="pros-cons">
-                    <div class="pros">
-                        <h4>Pros</h4>
-                        <ul>
-                            <li>Very fast</li>
-                            <li>Simple API</li>
-                            <li>Low overhead</li>
-                            <li>Redis-based</li>
-                        </ul>
-                    </div>
-                    <div class="cons">
-                        <h4>Cons for TipsyDrive</h4>
-                        <ul>
-                            <li>Limited features vs BullMQ</li>
-                            <li>No official NestJS module</li>
-                            <li>Less active maintenance</li>
-                            <li>TypeScript support limited</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="bottom-line">
-            <h3>Bottom Line</h3>
-            <p>For TipsyDrive's background jobs - <strong>notifications, SMS, payment processing, and scheduled tasks</strong> - BullMQ provides:</p>
-            <ul style="margin: 1rem 0; padding-left: 1.5rem;">
-                <li>Uses existing Redis - no additional infrastructure</li>
-                <li>First-class NestJS integration via @nestjs/bullmq</li>
-                <li>Excellent TypeScript support with full type safety</li>
-                <li>Delayed jobs for scheduled driver payouts</li>
-                <li>Automatic retries with exponential backoff</li>
-                <li>Bull Board dashboard for job monitoring</li>
-            </ul>
-        </div>
-
-        <footer style="text-align: center; padding: 3rem 0; border-top: 1px solid var(--border); margin-top: 3rem; color: var(--text-muted);">
-            <a href="architecture-and-plan.html" style="color: var(--primary); text-decoration: none;">&larr; Back to Architecture & Plan</a>
-        </footer>
+        </main>
     </div>
 </body>
 </html>

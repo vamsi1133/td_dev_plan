@@ -1,4 +1,4 @@
-// Simple client-side authentication for TipsyDrive documentation
+// Simple client-side authentication for TipsyDrive Tech Documentation
 // Note: This prevents casual access only - not cryptographically secure
 
 (function() {
@@ -18,10 +18,10 @@
     // Configuration
     const CONFIG = {
         // Password (base64 encoded for basic obfuscation)
-        // Current password: "TipsyDrive2024"
+        // Current password: "td@123"
         // To change: btoa('YourNewPassword') in browser console, then paste here
         encodedPassword: 'dGRAMTIz',
-        sessionKey: 'tipsydrive_auth',
+        sessionKey: 'tipsydrive_tech_auth',
         sessionDuration: 24 * 60 * 60 * 1000,
     };
 
@@ -81,83 +81,91 @@
         const overlay = document.createElement('div');
         overlay.id = 'auth-overlay';
 
-        // Set overlay styles directly
+        // Set overlay styles - using TipsyDrive color palette
         overlay.style.cssText = `
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #ffffff;
+            background: #EAEFEF;
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 2147483647;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
         `;
 
         overlay.innerHTML = `
             <div style="
-                background: #f8fafc;
+                background: #FFFFFF;
                 padding: 3rem;
                 border-radius: 16px;
-                box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+                box-shadow: 0 4px 24px rgba(37, 52, 63, 0.08);
                 max-width: 400px;
                 width: 90%;
                 text-align: center;
-                border: 1px solid #e2e8f0;
+                border: 1px solid #E1E7EB;
             ">
-                <div style="font-size: 3rem; margin-bottom: 1rem;">&#128274;</div>
+                <img src="logo.png" alt="TipsyDrive" style="
+                    width: 72px;
+                    height: 72px;
+                    border-radius: 16px;
+                    margin-bottom: 1.5rem;
+                    box-shadow: 0 4px 12px rgba(37, 52, 63, 0.1);
+                ">
                 <div style="
-                    font-size: 2.5rem;
+                    font-size: 1.75rem;
                     font-weight: 700;
-                    background: linear-gradient(135deg, #4f46e5, #059669);
-                    -webkit-background-clip: text;
-                    -webkit-text-fill-color: transparent;
-                    background-clip: text;
+                    color: #25343F;
                     margin-bottom: 0.5rem;
                 ">TipsyDrive</div>
                 <div style="
-                    color: #64748b;
+                    color: #6B7B8A;
                     margin-bottom: 2rem;
                     font-size: 0.95rem;
-                ">Confidential Project Documentation</div>
+                ">Technical Documentation</div>
                 <form id="auth-form">
                     <input type="password" id="auth-password" placeholder="Enter access password" autocomplete="off" required style="
                         width: 100%;
                         padding: 1rem;
                         font-size: 1rem;
-                        border: 2px solid #e2e8f0;
-                        border-radius: 8px;
+                        border: 2px solid #E1E7EB;
+                        border-radius: 12px;
                         margin-bottom: 1rem;
                         outline: none;
                         box-sizing: border-box;
                         transition: border-color 0.2s;
+                        background: #FFFFFF;
+                        color: #25343F;
                     ">
                     <button type="submit" id="auth-submit" style="
                         width: 100%;
                         padding: 1rem;
                         font-size: 1rem;
                         font-weight: 600;
-                        background: #4f46e5;
-                        color: white;
+                        background: #FF9B51;
+                        color: #FFFFFF;
                         border: none;
-                        border-radius: 8px;
+                        border-radius: 12px;
                         cursor: pointer;
-                        transition: background 0.2s;
+                        transition: all 0.2s;
                     ">Access Documentation</button>
                 </form>
                 <div id="auth-error" style="
-                    color: #dc2626;
+                    color: #EA4335;
                     font-size: 0.875rem;
                     margin-top: 1rem;
                     display: none;
+                    padding: 0.75rem;
+                    background: rgba(234, 67, 53, 0.1);
+                    border-radius: 8px;
                 ">Incorrect password. Please try again.</div>
                 <div style="
                     margin-top: 2rem;
                     padding-top: 1.5rem;
-                    border-top: 1px solid #e2e8f0;
-                    color: #64748b;
+                    border-top: 1px solid #E1E7EB;
+                    color: #6B7B8A;
                     font-size: 0.8rem;
                 ">
                     This documentation is confidential and intended for authorized team members only.
@@ -191,10 +199,10 @@
         // Handle input focus style
         if (passwordInput) {
             passwordInput.addEventListener('focus', function() {
-                this.style.borderColor = '#4f46e5';
+                this.style.borderColor = '#FF9B51';
             });
             passwordInput.addEventListener('blur', function() {
-                this.style.borderColor = '#e2e8f0';
+                this.style.borderColor = '#E1E7EB';
             });
         }
 
@@ -209,7 +217,7 @@
                 const errorDiv = document.getElementById('auth-error');
 
                 submitBtn.disabled = true;
-                submitBtn.style.background = '#94a3b8';
+                submitBtn.style.background = '#BFC9D1';
                 submitBtn.style.cursor = 'not-allowed';
                 submitBtn.textContent = 'Verifying...';
                 errorDiv.style.display = 'none';
@@ -228,7 +236,7 @@
                     } else {
                         errorDiv.style.display = 'block';
                         submitBtn.disabled = false;
-                        submitBtn.style.background = '#4f46e5';
+                        submitBtn.style.background = '#FF9B51';
                         submitBtn.style.cursor = 'pointer';
                         submitBtn.textContent = 'Access Documentation';
                         document.getElementById('auth-password').value = '';
@@ -243,12 +251,12 @@
         if (submitBtn) {
             submitBtn.addEventListener('mouseenter', function() {
                 if (!this.disabled) {
-                    this.style.background = '#4338ca';
+                    this.style.background = '#e88a42';
                 }
             });
             submitBtn.addEventListener('mouseleave', function() {
                 if (!this.disabled) {
-                    this.style.background = '#4f46e5';
+                    this.style.background = '#FF9B51';
                 }
             });
         }
